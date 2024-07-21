@@ -260,3 +260,68 @@ CREATE TABLE Workers (
 ```
 
 </details>
+
+
+## **Тестове заповнення БД**
+<details>
+<summary>Запити</summary>
+
+### **Контакти**
+```
+INSERT INTO Contacts (PIB, email)
+VALUES 
+('Іван Іваненко', 'ivan.ivanenko@example.com'),
+('Петро Петренко', 'petro.petrenko@example.com'),
+('Олена Шевченко', 'olena.shevchenko@example.com'),
+('Марія Горобець', 'mariya.horobets@example.com'),
+('Оксана Бойко', 'oksana.boyko@example.com'),
+('Андрій Лисенко', 'andriy.lysenko@example.com'),
+('Сергій Коваленко', 'serhiy.kovalenko@example.com'),
+('Надія Бондар', 'nadia.bondar@example.com'),
+('Юлія Кравець', 'yulia.kravets@example.com'),
+('Володимир Мороз', 'volodymyr.moroz@example.com'),
+('Наталія Гриценко', 'natalia.hrytsenko@example.com'),
+('Олександр Тимошенко', 'oleksandr.tymoshenko@example.com'),
+('Віктор Мельник', 'viktor.melnyk@example.com'),
+('Тетяна Ковальчук', 'tetiana.kovalchuk@example.com'),
+('Ірина Федорук', 'iryna.fedoruk@example.com'),
+('Микола Сидоренко', 'mykola.sydorenko@example.com'),
+('Галина Савченко', 'halyna.savchenko@example.com'),
+('Олег Павленко', 'oleh.pavlenko@example.com'),
+('Дмитро Заєць', 'dmytro.zayats@example.com'),
+('Катерина Довженко', 'kateryna.dovzhenko@example.com');
+```
+
+### **Номера телефонів**
+```
+INSERT INTO phonenumbers (phone_number, contact_id) 
+VALUES 
+('+380501234567', 1), 
+('+380671234567', 2), 
+('+380931234567', 2), 
+('+380631234567', 3), 
+('+380991234567', 4), 
+('+380681234567', 5), 
+('+380501234568', 6), 
+('+380671234568', 7), 
+('+380931234568', 8), 
+('+380631234568', 9), 
+('+380991234568', 10), 
+('+380681234568', 11), 
+('+380501234569', 12), 
+('+380671234569', 12), 
+('+380931234569', 13), 
+('+380631234569', 14), 
+('+380991234569', 15), 
+('+380681234569', 16), 
+('+380501234570', 17), 
+('+380671234570', 18), 
+('+380931234570', 18), 
+('+380631234570', 18), 
+('+380991234570', 19), 
+('+380681234570', 20), 
+('+380501234571', 20);
+```
+
+
+</details>
