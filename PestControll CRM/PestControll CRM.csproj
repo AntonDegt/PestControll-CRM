@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>PestControll_CRM</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\TextLogo\controll.png" />
+    <None Remove="Images\TextLogo\CRM.png" />
+    <None Remove="Images\TextLogo\Pest.png" />
+    <None Remove="Windows\CockroachIcon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\CockroachIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\TextLogo\controll.png" />
+    <Resource Include="Images\TextLogo\CRM.png" />
+    <Resource Include="Images\TextLogo\Pest.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fonts\" />
+  </ItemGroup>
+
+</Project>
