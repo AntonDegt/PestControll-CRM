@@ -116,6 +116,7 @@ CREATE TABLE Contacts (
     id int NOT NULL AUTO_INCREMENT,
     PIB varchar(100) NOT NULL,
     email varchar(255) NULL,
+    notes text NULL,
     PRIMARY KEY (id)
 );
 ```
