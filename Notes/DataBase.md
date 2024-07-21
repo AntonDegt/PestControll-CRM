@@ -35,10 +35,14 @@
 </details>
 
 ## **Схема**
+<details>
+<summary>Скріншоти</summary>
+
 ![image](https://github.com/user-attachments/assets/62d95ef9-8c94-43cf-9493-229a36c8cb91)
 ![image](https://github.com/user-attachments/assets/9642b1b2-b088-47e8-ae20-0868a559a7c0)
 ![image](https://github.com/user-attachments/assets/32736896-2749-4944-8ca0-da1cafabe8b3)
 
+</details>
 
 ## **Опис**
 <details>
@@ -97,4 +101,162 @@ _Співробітники (куратори та оператори)_
 </details>
 
 
+## **Створення Бази Данних**
+<details>
+<summary>Запити</summary>
 
+### **Створення БД**
+```
+CREATE DATABASE PCCRM;
+```
+
+### **Контакти**
+```
+CREATE TABLE Contacts (
+    id int NOT NULL AUTO_INCREMENT,
+    PIB varchar(100) NOT NULL,
+    email varchar(255) NULL,
+    PRIMARY KEY (id)
+);
+```
+
+### **Номера телефону**
+```
+CREATE TABLE PhoneNumbers (
+    phone_number varchar(15) NOT NULL,
+    contact_id INT NOT NULL,
+    PRIMARY KEY (phone_number)
+);
+```
+
+### **Фізична особа**
+```
+CREATE TABLE NaturalPerson (
+    contact_id int NOT NULL AUTO_INCREMENT,
+    IPN varchar(30) NOT NULL,
+    address varchar(100),
+    PRIMARY KEY (contact_id)
+);
+```
+
+### **Юридична особа**
+```
+CREATE TABLE LegalPerson (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(50) NOT NULL,
+    EDRPOU varchar(20) NOT NULL,
+    address varchar(100) NOT NULL,
+    current_account varchar(20),
+    email varchar(20),
+    tax_system_id INT,
+    PRIMARY KEY (id)
+);
+```
+
+### **Співробітники юридичних осіб**
+```
+CREATE TABLE Position (
+    contact_id int NOT NULL,
+    legal_person_id INT NOT NULL,
+    priority_contact BOOLEAN NOT NULL,
+    position varchar(30) NOT NULL,
+    PRIMARY KEY (contact_id)
+);
+```
+
+### **Виклики**
+```
+CREATE TABLE Calls (
+    id int NOT NULL AUTO_INCREMENT,
+    call_type int NOT NULL,
+    contact_id int NOT NULL,
+    date_time DATETIME NOT NULL,
+    result_type_id INT NOT NULL,
+    comment TEXT NOT NULL,
+    PRIMARY KEY (id)
+);
+```
+
+### **Типи викликів**
+```
+CREATE TABLE CallTypes (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(15) NOT NULL,
+    PRIMARY KEY (id)
+);
+```
+
+### **Типи результатів викликів**
+```
+CREATE TABLE CallResultTypes (
+    id int NOT NULL AUTO_INCREMENT,
+    resunt varchar(15) NOT NULL,
+    PRIMARY KEY (id)
+);
+```
+
+### **Планові дзвінки**
+```
+CREATE TABLE PlannedCalls (
+    id int NOT NULL AUTO_INCREMENT,
+    contact_id INT NOT NULL,
+    date DATE NOT NULL,
+    time TIME NULL,
+    goal text NULL,
+    PRIMARY KEY (id)
+);
+```
+
+### **Типи опадаткування**
+```
+CREATE TABLE TaxSystem (
+    id int NOT NULL AUTO_INCREMENT,
+    type varchar(20),
+    PRIMARY KEY (id)
+);
+```
+
+### **Планові роботи**
+```
+CREATE TABLE PlannedWork (
+    id int NOT NULL AUTO_INCREMENT,
+    legal_person BOOLEAN NOT NULL,
+    person_id int NOT NULL,
+    quantity_per_month INT NOT NULL,
+    brigade_id INT NULL,
+    notes text NULL,
+    PRIMARY KEY (id)
+);
+```
+
+### **Планові візити**
+```
+CREATE TABLE PlannedVisit (
+    id int NOT NULL AUTO_INCREMENT,
+    planned_work_id INT NOT NULL,
+    date DATE NULL,
+    notes text NULL,
+    PRIMARY KEY (id)
+);
+```
+
+### **Бригада**
+```
+CREATE TABLE Brigade (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(20) NOT NULL,
+    curator_contact_id INT NOT NULL,
+    PRIMARY KEY (id)
+);
+```
+
+### **Співробітники**
+```
+CREATE TABLE Workers (
+    contact_id int NOT NULL,
+    brigade_id INT NOT NULL,
+    PRIMARY KEY (contact_id)
+);
+```
+
+</details>
