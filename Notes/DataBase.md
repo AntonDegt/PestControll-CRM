@@ -38,9 +38,11 @@
 <details>
 <summary>Скріншоти</summary>
 
-![image](https://github.com/user-attachments/assets/62d95ef9-8c94-43cf-9493-229a36c8cb91)
-![image](https://github.com/user-attachments/assets/9642b1b2-b088-47e8-ae20-0868a559a7c0)
-![image](https://github.com/user-attachments/assets/32736896-2749-4944-8ca0-da1cafabe8b3)
+![image](https://github.com/user-attachments/assets/b2acd2b5-6a09-4c0e-9da7-2d9882b94bed)
+![image](https://github.com/user-attachments/assets/a6f38bb7-8317-4944-969b-55c81e389727)
+![image](https://github.com/user-attachments/assets/771381f0-71d4-4202-9553-fb28e449311c)
+
+
 
 </details>
 
