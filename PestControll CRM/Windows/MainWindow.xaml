@@ -1,0 +1,322 @@
+﻿<Window x:Class="PestControll_CRM.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PestControll_CRM.Windows"
+        mc:Ignorable="d"
+        Title="PestControll CRM"
+        Icon="/Images/CockroachIcon.ico"
+        WindowState="Maximized"
+        Height="500" Width="950">
+
+    <Window.Resources>
+        <ResourceDictionary Source="/Themes/WhiteRed.xaml"/>
+    </Window.Resources>
+    <Window.Style>
+        <Binding Mode="OneWay" Source="{StaticResource Window}"/>
+    </Window.Style>
+
+
+    <TabControl Grid.Row="0" TabStripPlacement="Left">
+        <!-- Лого -->
+        <TabItem Width="125" Focusable="False" Padding="5">
+            <TabItem.Header>
+                <Grid>
+                    <Image Source="/Images/TextLogo/Pest.png"/>
+                    <Image Source="/Images/TextLogo/controll.png"/>
+                    <Image Source="/Images/TextLogo/CRM.png"/>
+                </Grid>
+            </TabItem.Header>
+        </TabItem>
+
+        <!-- Статистика -->
+        <TabItem>
+            <TabItem.Header>
+                <WrapPanel>
+                    <TextBlock Text="&#xf201; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="Статистика"/>
+                </WrapPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                123
+            </TabItem.Content>
+        </TabItem>
+
+
+        <TabItem IsSelected="True" >
+            <TabItem.Header>
+                <WrapPanel>
+                    <TextBlock Text="&#xf2b9; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="Контакти"/>
+                </WrapPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                <Grid>
+                    <Grid.Resources>
+                    </Grid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Кнопки / Пошук / Сортування -->
+                    <Border Grid.Row="0" Grid.RowSpan="2" Margin="2"
+                            BorderThickness="2" BorderBrush="{StaticResource pc_red}" CornerRadius="5"/>
+                    <!-- Кнопки управління -->
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <!-- Інфо, Додати, Видалити -->
+
+                        <Button Grid.Column="0"
+                            Background="{StaticResource pc_b_green}" 
+                            Style="{StaticResource MenuButton}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xf0fe; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock>Додати</TextBlock>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="1"
+                                Background="{StaticResource pc_b_blue}" 
+                                Style="{StaticResource MenuButton}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xf06e; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock>Огляд</TextBlock>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="2" 
+                                Background="{StaticResource pc_b_yellow}" 
+                                Style="{StaticResource MenuButton}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xf044; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock>Редагувати</TextBlock>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="3" 
+                                Background="{StaticResource pc_b_red}" 
+                                Style="{StaticResource MenuButton}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xf2ed; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock>Видалити</TextBlock>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+
+                    <!-- Пошук/Сортування -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" Grid.ColumnSpan="3" Margin="10 5 5 10"
+                                BorderThickness="3" BorderBrush="{StaticResource pc_black}"
+                                CornerRadius="10" ClipToBounds="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox Grid.Column="1" Margin="0"
+                                         x:Name="ContactSearchTextBox" 
+                                         TextChanged="ContactSearchTextBox_TextChanged"
+                                         KeyDown="ContactSearchTextBox_KeyDown"
+                                         Foreground="{StaticResource pc_black}"
+                                         BorderBrush="Transparent" BorderThickness="0"
+                                         VerticalAlignment="Center"/>
+                                <Button  Grid.Column="2"
+                                         Visibility="Hidden"
+                                         x:Name="ClearSearch" Click="ClearSearch_Click"
+                                         Padding="0" Margin="10 0" Style="{StaticResource MenuButton}"
+                                         Background="Transparent" BorderThickness="0">
+                                    <TextBlock Margin="0" Foreground="{StaticResource pc_red}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                                               Text="&#xf00d; " FontFamily="Font Awesome 6 Free Solid"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+                        
+                        <Border Grid.Column="3"
+                                BorderBrush="{StaticResource pc_black}"
+                                BorderThickness="3"
+                                CornerRadius="10"
+                                Margin="5 5 10 10">
+                            <ComboBox x:Name="ContactStatusComboBox"
+                                      Style="{DynamicResource ComboBoxTransparentStyle}"
+                                      Background="Transparent"
+                                      ItemsSource="{Binding contactStatuses}"
+                                      SelectionChanged="ContactStatusComboBox_SelectionChanged">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=StatusName}"
+                                                   Foreground="{StaticResource pc_black}"
+                                                   Background="Transparent"
+                                                   Padding="5 0 0 0"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Border>
+                    </Grid>
+                    
+
+                    <!-- Контакти -->
+                    <Border Grid.Row="2" Margin="2 5 2 2"
+                            BorderThickness="2" BorderBrush="{StaticResource pc_red}" CornerRadius="5">
+                        <ListBox x:Name="ContactsListBox" ItemsSource="{Binding contacts}"
+                                 MouseDoubleClick="ContactsListBoxItem_MouseDoubleClick"
+                                 ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True" HorizontalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="{Binding Path=Status.StatucColor}" 
+                                            BorderThickness="4" CornerRadius="5">
+                                        <Border.OpacityMask>
+                                            <VisualBrush>
+                                                <VisualBrush.Visual>
+                                                    <Border 
+                                                    Background="Black"
+                                                    SnapsToDevicePixels="True"
+                                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                    />
+                                                </VisualBrush.Visual>
+                                            </VisualBrush>
+                                        </Border.OpacityMask>
+                                        <Grid Width="240" MinHeight="150" Background="White">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"/>
+                                                <RowDefinition MinHeight="30"/>
+                                                <RowDefinition />
+                                                <RowDefinition Height="20"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" Text="{Binding Path=Status.StatusName}"  VerticalAlignment="Center" Padding="10 0 0 0"
+                                                   Background="{Binding Path=Status.StatucColor}" Foreground="White" FontWeight="Black"/>
+                                            <TextBlock Grid.Row="1" Text="{Binding Path=PIB}" VerticalAlignment="Top" Padding="10 0 0 0"
+                                                   FontWeight="Bold" FontSize="18" TextWrapping="Wrap"/>
+                                            <TextBlock Grid.Row="2" Text="{Binding Path=PhoneNumbersStr}" VerticalAlignment="Top" Padding="10 0 0 0"
+                                                   FontWeight="Bold" FontSize="18" TextWrapping="Wrap" Focusable="False"/>
+                                            <TextBlock Grid.Row="3" Text="{Binding Path=Email}"  VerticalAlignment="Center" Padding="10 0 0 2"
+                                                   FontWeight="Bold" FontSize="10" TextWrapping="Wrap"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
+                </Grid>
+            </TabItem.Content>
+        </TabItem>
+
+
+        <TabItem>
+            <TabItem.Header>
+                <WrapPanel>
+                    <TextBlock Text="&#xf879; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="Дзвінки"/>
+                </WrapPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                123
+            </TabItem.Content>
+        </TabItem>
+
+
+        <TabItem>
+            <TabItem.Header>
+                <WrapPanel>
+                    <TextBlock Text="&#xf0b1; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="Роботи"/>
+                </WrapPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                123
+            </TabItem.Content>
+        </TabItem>
+
+
+        <TabItem>
+            <TabItem.Header>
+                <WrapPanel>
+                    <TextBlock Text="&#xf073; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="Графік"/>
+                </WrapPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                123
+            </TabItem.Content>
+        </TabItem>
+
+        <TabItem>
+            <TabItem.Header>
+                <WrapPanel>
+                    <TextBlock Text="&#xf500; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="Бригади"/>
+                </WrapPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                123
+            </TabItem.Content>
+        </TabItem>
+
+        <TabItem>
+            <TabItem.Header>
+                <WrapPanel>
+                    <TextBlock Text="&#xf7d9; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="Обладнання"/>
+                </WrapPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                123
+            </TabItem.Content>
+        </TabItem>
+    </TabControl>
+
+</Window>

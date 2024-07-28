@@ -4,6 +4,8 @@
     <SolidColorBrush x:Key="pc_red" Color="#CC0000" />
     <SolidColorBrush x:Key="pc_white" Color="#E5E8EA" />
 
+    <Style x:Key="None" TargetType="Button"/>
+    
     <Style x:Key="Window" TargetType="Window">
         <Setter Property="Background" Value="{StaticResource pc_red}"/>
         <Setter Property="Foreground" Value="{StaticResource pc_white}"/>
@@ -27,6 +29,16 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
+    <Style TargetType="PasswordBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource pc_white}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource pc_white}"/>
+        <Setter Property="BorderThickness" Value="0 0 0 2"/>
+        <Setter Property="FontSize" Value="28"/>
+        <Setter Property="FontFamily" Value="Cascadia Mono"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
     <Style TargetType="Button">
         <Setter Property="BorderBrush" Value="{StaticResource pc_white}"/>
         <Setter Property="Background" Value="{StaticResource pc_red}"/>
@@ -35,6 +47,7 @@
         <Setter Property="FontFamily" Value="Cascadia Mono"/>
 
         <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False"/>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource pc_white}"/>
                 <Setter Property="Foreground" Value="{StaticResource pc_red}"/>
