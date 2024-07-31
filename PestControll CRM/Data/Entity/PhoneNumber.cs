@@ -10,7 +10,12 @@ namespace PestControll_CRM.Data.Entity
         [Key]
         [Column("phone_number")]
         public string phone_number { get; set; }
-
+        public string phone_number_without_regions {
+            get
+            {
+                return phone_number.Substring(4);
+            }
+        }
 
         [Column("contact_id")]
         public int? contact_id { get; set; }

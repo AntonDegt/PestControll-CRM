@@ -22,7 +22,7 @@ namespace PestControll_CRM.Data.Entity
 
 
         [Column("StatusColor", TypeName = "varchar(10)")]
-        public string StatucColor { get; set; } = null;
+        public string StatusColor { get; set; } = null;
 
     }
 }

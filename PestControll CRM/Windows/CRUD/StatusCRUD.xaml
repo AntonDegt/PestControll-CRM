@@ -1,0 +1,74 @@
+﻿<Window x:Class="PestControll_CRM.Windows.CRUD.StatusCRUD"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PestControll_CRM.Windows.CRUD"
+        mc:Ignorable="d"
+        x:Name="WindowCRUD"
+        Loaded="WindowCRUD_Loaded"
+        Closing="WindowCRUD_Closing"
+        Title="" Height="250" Width="450">
+    <Window.Resources>
+        <ResourceDictionary Source="/Themes/WhiteRed.xaml"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Content="Статус"
+               Background="{StaticResource pc_red}"
+               Foreground="{StaticResource pc_white}"
+               FontSize="28"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Margin="25 5" MaxWidth="650">
+                <!--PIB-->
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Назва"/>
+                    <TextBox   Grid.Column="1" x:Name="NameTextBox" Text="{Binding status.StatusName, Mode=OneWay}"
+                       TextChanged="NameTextBox_TextChanged"/>
+                </Grid>
+
+                <!--Color-->
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Колір"/>
+                    <TextBox   Grid.Column="1" x:Name="ColorTextBox" Text="{Binding status.StatucColor , Mode=OneWay}"
+                               TextChanged="ColorTextBox_TextChanged"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Row="2" x:Name="SaveStatusButton" Click="SaveStatusButton_Click"
+                Style="{StaticResource MenuButton}"
+                Background="{StaticResource pc_b_green}" Margin="5" MaxWidth="650">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xf00c; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock>Зберегти</TextBlock>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+</Window>

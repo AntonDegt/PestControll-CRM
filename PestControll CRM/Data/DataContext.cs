@@ -55,7 +55,7 @@ namespace PestControll_CRM.Data
                     Database.OpenConnection();
                     Database.CloseConnection();
                 }
-                catch (MySqlException)
+                catch (Exception ex)
                 {
                     return false;
                 }
