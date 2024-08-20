@@ -104,226 +104,203 @@ _Співробітники (куратори та оператори)_
 
 
 ## **Створення Бази Данних**
-<details>
-<summary>Запити</summary>
-
-### **Створення БД**
-```
-CREATE DATABASE PCCRM;
-```
-
-### **Контакти**
-```
-CREATE TABLE Contacts (
-    id int NOT NULL AUTO_INCREMENT,
-    PIB varchar(100) NOT NULL,
-    email varchar(255) NULL,
-    notes text NULL,
-    PRIMARY KEY (id)
-);
-```
-
-### **Номера телефону**
-```
-CREATE TABLE PhoneNumbers (
-    phone_number varchar(15) NOT NULL,
-    contact_id INT NOT NULL,
-    PRIMARY KEY (phone_number)
-);
-```
-
-### **Фізична особа**
-```
-CREATE TABLE NaturalPerson (
-    contact_id int NOT NULL AUTO_INCREMENT,
-    IPN varchar(30) NOT NULL,
-    address varchar(100),
-    PRIMARY KEY (contact_id)
-);
-```
-
-### **Юридична особа**
-```
-CREATE TABLE LegalPerson (
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(50) NOT NULL,
-    EDRPOU varchar(20) NOT NULL,
-    address varchar(100) NOT NULL,
-    current_account varchar(20),
-    email varchar(20),
-    tax_system_id INT,
-    PRIMARY KEY (id)
-);
-```
-
-### **Співробітники юридичних осіб**
-```
-CREATE TABLE Position (
-    contact_id int NOT NULL,
-    legal_person_id INT NOT NULL,
-    priority_contact BOOLEAN NOT NULL,
-    position varchar(30) NOT NULL,
-    PRIMARY KEY (contact_id)
-);
-```
-
-### **Виклики**
-```
-CREATE TABLE Calls (
-    id int NOT NULL AUTO_INCREMENT,
-    call_type int NOT NULL,
-    contact_id int NOT NULL,
-    date_time DATETIME NOT NULL,
-    result_type_id INT NOT NULL,
-    comment TEXT NOT NULL,
-    PRIMARY KEY (id)
-);
-```
-
-### **Типи викликів**
-```
-CREATE TABLE CallTypes (
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(15) NOT NULL,
-    PRIMARY KEY (id)
-);
-```
-
-### **Типи результатів викликів**
-```
-CREATE TABLE CallResultTypes (
-    id int NOT NULL AUTO_INCREMENT,
-    resunt varchar(15) NOT NULL,
-    PRIMARY KEY (id)
-);
-```
-
-### **Планові дзвінки**
-```
-CREATE TABLE PlannedCalls (
-    id int NOT NULL AUTO_INCREMENT,
-    contact_id INT NOT NULL,
-    date DATE NOT NULL,
-    time TIME NULL,
-    goal text NULL,
-    PRIMARY KEY (id)
-);
-```
-
-### **Типи опадаткування**
-```
-CREATE TABLE TaxSystem (
-    id int NOT NULL AUTO_INCREMENT,
-    type varchar(20),
-    PRIMARY KEY (id)
-);
-```
-
-### **Планові роботи**
-```
-CREATE TABLE PlannedWork (
-    id int NOT NULL AUTO_INCREMENT,
-    legal_person BOOLEAN NOT NULL,
-    person_id int NOT NULL,
-    quantity_per_month INT NOT NULL,
-    brigade_id INT NULL,
-    notes text NULL,
-    PRIMARY KEY (id)
-);
-```
-
-### **Планові візити**
-```
-CREATE TABLE PlannedVisit (
-    id int NOT NULL AUTO_INCREMENT,
-    planned_work_id INT NOT NULL,
-    date DATE NULL,
-    notes text NULL,
-    PRIMARY KEY (id)
-);
-```
-
-### **Бригада**
-```
-CREATE TABLE Brigade (
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(20) NOT NULL,
-    curator_contact_id INT NOT NULL,
-    PRIMARY KEY (id)
-);
-```
-
-### **Співробітники**
-```
-CREATE TABLE Workers (
-    contact_id int NOT NULL,
-    brigade_id INT NOT NULL,
-    PRIMARY KEY (contact_id)
-);
-```
-
-</details>
+Створення Бази Данних відбувається через Міграції (Entity Framework Core)
 
 
 ## **Тестове заповнення БД**
 <details>
 <summary>Запити</summary>
 
+### **Статуси контактів**
+```
+INSERT INTO `contactstatus` (`id`, `StatusName`, `StatusColor`) VALUES
+(1, 'Працівник', '#65CBC4'),
+(2, 'Постійний клієнт', '#A5DB74'),
+(3, 'Лід', '#F68D93');
+```
+
 ### **Контакти**
 ```
-INSERT INTO Contacts (PIB, email)
-VALUES 
-('Іван Іваненко', 'ivan.ivanenko@example.com'),
-('Петро Петренко', 'petro.petrenko@example.com'),
-('Олена Шевченко', 'olena.shevchenko@example.com'),
-('Марія Горобець', 'mariya.horobets@example.com'),
-('Оксана Бойко', 'oksana.boyko@example.com'),
-('Андрій Лисенко', 'andriy.lysenko@example.com'),
-('Сергій Коваленко', 'serhiy.kovalenko@example.com'),
-('Надія Бондар', 'nadia.bondar@example.com'),
-('Юлія Кравець', 'yulia.kravets@example.com'),
-('Володимир Мороз', 'volodymyr.moroz@example.com'),
-('Наталія Гриценко', 'natalia.hrytsenko@example.com'),
-('Олександр Тимошенко', 'oleksandr.tymoshenko@example.com'),
-('Віктор Мельник', 'viktor.melnyk@example.com'),
-('Тетяна Ковальчук', 'tetiana.kovalchuk@example.com'),
-('Ірина Федорук', 'iryna.fedoruk@example.com'),
-('Микола Сидоренко', 'mykola.sydorenko@example.com'),
-('Галина Савченко', 'halyna.savchenko@example.com'),
-('Олег Павленко', 'oleh.pavlenko@example.com'),
-('Дмитро Заєць', 'dmytro.zayats@example.com'),
-('Катерина Довженко', 'kateryna.dovzhenko@example.com');
+INSERT INTO `contacts` (`id`, `contactstatus_id`, `pib`, `email`, `notes`) VALUES
+(1, 1, 'Іван Іваненко', 'ivan.ivanenko@example.com', ''),
+(2, 1, 'Петро Петренко', 'petro.petrenko@example.com', ''),
+(3, 3, 'Олена Шевченко Анатоліївна ', 'olena.shevchenko@example.com', ''),
+(4, 1, 'Марія Горобець', 'mariya.horobets@example.com', ''),
+(5, 2, 'Оксана Бойко', 'oksana.boyko@example.com', ''),
+(6, 3, 'Андрій Лисенко', 'andriy.lysenko@example.com', ''),
+(7, 1, 'Сергій Коваленко Андрійович', 'serhiy.kovalenko@example.com', ''),
+(8, 2, 'Надія Бондар', 'nadia.bondar@example.com', ''),
+(9, 3, 'Юлія Кравець', 'yulia.kravets@example.com', ''),
+(10, 1, 'Володимир Мороз', 'volodymyr.moroz@example.com', ''),
+(11, 2, 'Наталія Гриценко', 'natalia.hrytsenko@example.com', ''),
+(12, 2, 'Олександр Тимошенко', 'oleksandr.tymoshenko@example.com', ''),
+(13, 1, 'Віктор Мельник', 'viktor.melnyk@example.com', ''),
+(14, 1, 'Тетяна Ковальчук', 'tetiana.kovalchuk@example.com', ''),
+(15, 2, 'Ірина Федорук', 'iryna.fedoruk@example.com', ''),
+(16, 1, 'Микола Сидоренко Васильович', 'mykola.sydorenko@example.com', ''),
+(17, 1, 'Галина Савченко', 'halyna.savchenko@example.com', ''),
+(18, 3, 'Олег Павленко', 'oleh.pavlenko@example.com', ''),
+(19, 1, 'Дмитро Заєць', 'dmytro.zayats@example.com', ''),
+(20, 2, 'Катерина Довженко', 'kateryna.dovzhenko@example.com', ''),
+(21, 2, 'Артем Олексійович Гончаренко', 'artem.goncharenko@example.com', 'Часто купає хатинки від тарганів'),
+(22, 3, 'Іван Петрович Сидоренко', 'ivan.sydorenko@gmail.com', ''),
+(23, 1, 'Олена Сергіївна Мельник', 'olena.melnyk@yahoo.com', ''),
+(26, 2, 'Катерина Іванівна Левченко', 'kateryna.levchenko@ukr.net', ''),
+(27, 1, 'Світлана Черненко Іванівна', 'svitlana.chernenko@example.com', ''),
+(28, 3, 'Ганна Климчук Олександрівна', 'hanna.klymchuk@example.com', ''),
+(29, 1, 'Михайло Рибак Дмитрович', 'mykhailo.rybak@example.com', ''),
+(30, 3, 'Валентина Коломієць Михайлівна', '', ''),
+(31, 2, 'Максим Кравченко Сергійович', '', ''),
+(32, 3, 'Юлія Кравець Вікторівна', '', '');
 ```
 
 ### **Номера телефонів**
 ```
-INSERT INTO phonenumbers (phone_number, contact_id) 
-VALUES 
-('+380501234567', 1), 
-('+380671234567', 2), 
-('+380931234567', 2), 
-('+380631234567', 3), 
-('+380991234567', 4), 
-('+380681234567', 5), 
-('+380501234568', 6), 
-('+380671234568', 7), 
-('+380931234568', 8), 
-('+380631234568', 9), 
-('+380991234568', 10), 
-('+380681234568', 11), 
-('+380501234569', 12), 
-('+380671234569', 12), 
-('+380931234569', 13), 
-('+380631234569', 14), 
-('+380991234569', 15), 
-('+380681234569', 16), 
-('+380501234570', 17), 
-('+380671234570', 18), 
-('+380931234570', 18), 
-('+380631234570', 18), 
-('+380991234570', 19), 
-('+380681234570', 20), 
-('+380501234571', 20);
+INSERT INTO `phonenumber` (`phone_number`, `contact_id`) VALUES
+('+380501234567', 1),
+('+380671234567', 2),
+('+380931234567', 2),
+('+380631234567', 3),
+('+380991234567', 4),
+('+380681234567', 5),
+('+380501234568', 6),
+('+380671234568', 7),
+('+380931234568', 8),
+('+380631234568', 9),
+('+380991234568', 10),
+('+380681234568', 11),
+('+380501234569', 12),
+('+380671234569', 12),
+('+380931234569', 13),
+('+380631234569', 14),
+('+380663743677', 14),
+('+380991234569', 15),
+('+380681234569', 16),
+('+380501234570', 17),
+('+380631234570', 18),
+('+380671234570', 18),
+('+380991234570', 19),
+('+380501234571', 20),
+('+380681234570', 20),
+('+380663433323', 21),
+('+380663433333', 21),
+('+380991234579', 21),
+('+380378537589', 22),
+('+380691234567', 22),
+('+380633456789', 23),
+('+380991234574', 26),
+('+380503518562', 27),
+('+380668923592', 28),
+('+380934572802', 29),
+('+380503192042', 30),
+('+380503278678', 31),
+('+380668477438', 32);
+```
+
+### **Результати дзвінків**
+```
+INSERT INTO `callresulttypes` (`id`, `name`) VALUES
+(1, 'Без відповіді'),
+(2, 'Передзвонити піздніше'),
+(3, 'Скинути комерційну пропозицію'),
+(4, 'Замовлення'),
+(5, 'Не цікавить');
+```
+
+### **Типи дзвінків**
+```
+INSERT INTO `calltypes` (`id`, `name`) VALUES
+(1, 'Вхідний дзвінок'),
+(2, 'Вихідний дзвінок');
+```
+
+### **Дзвінки**
+```
+INSERT INTO `calls` (`id`, `call_type_id`, `contact_id`, `date_time`, `call_result_type_id`, `comment`) VALUES
+(23, 1, 8, '2024-06-10 15:50:00', 2, ''),
+(24, 2, 12, '2024-06-15 11:45:00', 2, ''),
+(25, 2, 6, '2024-06-22 10:55:00', 1, ''),
+(26, 2, 3, '2024-06-30 10:10:00', 1, ''),
+(27, 1, 2, '2024-08-19 12:41:13', 3, ''),
+(28, 1, 19, '2024-07-12 13:20:00', 5, ''),
+(29, 1, 7, '2024-07-20 14:30:00', 4, ''),
+(30, 2, 14, '2024-07-25 12:35:00', 3, ''),
+(31, 1, 20, '2024-07-29 16:00:00', 5, ''),
+(32, 2, 10, '2024-08-12 14:14:52', 3, ''),
+(33, 2, 6, '2024-08-12 14:22:27', 3, ''),
+(34, 2, 12, '2024-08-12 14:25:58', 2, ''),
+(35, 1, 12, '2024-08-19 15:10:19', 5, '');
+```
+
+### **Запланованні дзвінки**
+```
+INSERT INTO `plannedcalls` (`id`, `contact_id`, `date`, `time`, `goal`) VALUES
+(3, 3, '2024-08-25', '09:00:00', 'Planning the logistics for the upcoming company event, including venue selection, catering options, and attendee coordination to ensure a smooth and successful event.'),
+(4, 19, '2024-09-10', '11:15:00', 'Discussing the current financial performance of the company, identifying areas for improvement, and strategizing on cost-saving measures to enhance profitability.'),
+(5, 8, '2024-09-20', '13:30:00', 'Brainstorming ideas for the new advertising campaign, focusing on innovative approaches to reach our target audience and increase brand awareness.'),
+(7, 5, '2024-10-05', '10:45:00', 'Discussing the integration of new technology solutions to improve operational efficiency and streamline business processes, while also addressing any potential implementation challenges.'),
+(8, 1, '2024-10-15', '14:15:00', 'Reviewing the customer feedback received over the past quarter and developing action plans to address common concerns and enhance overall customer satisfaction.'),
+(18, 9, '2024-08-20', NULL, '');
+```
+
+### **Типи систем оподаткування**
+```
+INSERT INTO `taxsystems` (`id`, `name`) VALUES
+(1, 'Загальна система'),
+(2, 'Єдиний податок ІІ гр'),
+(3, 'Єдиний податок ІІІ г');
+```
+
+### **Фізичні особи**
+```
+INSERT INTO naturalpersons (contact_id, ipn, address) VALUES
+(1, '1234567890', 'Миколаїв, вулиця Соборна, 10'),
+(2, '0987654321', 'Одесса, вулиця Дерибасівська, 5'),
+(3, '1122334455', 'Южноукраїнськ, вулиця Леніна, 8'),
+(4, '5566778899', 'Первомайськ, вулиця Центральна, 12'),
+(5, '2233445566', 'Вознесенськ, вулиця Миру, 7'),
+(6, '3344556677', 'Нова-Одеса, вулиця Шевченка, 3'),
+(7, '4455667788', 'Миколаїв, вулиця Грушевського, 15'),
+(8, '5566778899', 'Одесса, вулиця Преображенська, 22'),
+(9, '6677889900', 'Южноукраїнськ, вулиця Кірова, 18'),
+(10, '7788990011', 'Первомайськ, вулиця Квіткова, 5');
+```
+
+### **Юридичні особи**
+```
+INSERT INTO legalpersons (id, name, edrpou, taxsystem_id, pdv, current_account, address, email) VALUES
+(1, 'ТОВ "Престиж"', '12345678', 1, 1, 'UA123456789012345678901234567', 'Миколаїв, вулиця Центральна, 12', 'prestige@company.ua'),
+(2, 'ТОВ "Будівельник"', '23456789', 2, 0, 'UA234567890123456789012345678', 'Одесса, вулиця Дерибасівська, 15', 'builder@company.ua'),
+(3, 'ТОВ "Агро-Трейд"', '34567890', 3, 1, 'UA345678901234567890123456789', 'Южноукраїнськ, вулиця Леніна, 10', 'agrotrade@company.ua'),
+(4, 'ТОВ "Логістика"', '45678901', 1, 0, 'UA456789012345678901234567890', 'Первомайськ, вулиця Миру, 7', 'logistics@company.ua'),
+(5, 'ТОВ "Техно"', '56789012', 2, 1, 'UA567890123456789012345678901', 'Вознесенськ, вулиця Грушевського, 3', 'techno@company.ua'),
+(6, 'ТОВ "Енергія"', '67890123', 3, 1, 'UA678901234567890123456789012', 'Нова-Одеса, вулиця Шевченка, 5', 'energy@company.ua'),
+(7, 'ТОВ "Автодор"', '78901234', 1, 0, 'UA789012345678901234567890123', 'Миколаїв, вулиця Соборна, 20', 'autodor@company.ua'),
+(8, 'ТОВ "Медікс"', '89012345', 2, 1, 'UA890123456789012345678901234', 'Одесса, вулиця Преображенська, 18', 'medics@company.ua'),
+(9, 'ТОВ "Фарма-Трейд"', '90123456', 3, 0, 'UA901234567890123456789012345', 'Южноукраїнськ, вулиця Кірова, 11', 'pharmatrade@company.ua'),
+(10, 'ТОВ "Комфорт"', '01234567', 1, 1, 'UA012345678901234567890123456', 'Первомайськ, вулиця Квіткова, 9', 'comfort@company.ua'),
+(11, 'ТОВ "Агросоюз"', '09876543', 2, 0, 'UA098765432109876543210987654', 'Вознесенськ, вулиця Миру, 14', 'agrosoyuz@company.ua'),
+(12, 'ТОВ "Електромонтаж"', '98765432', 3, 1, 'UA987654321098765432109876543', 'Нова-Одеса, вулиця Шевченка, 1', 'elektromontazh@company.ua'),
+(13, 'ТОВ "Укрбуд"', '87654321', 1, 1, 'UA876543210987654321098765432', 'Миколаїв, вулиця Грушевського, 25', 'ukrbud@company.ua'),
+(14, 'ТОВ "Сантех"', '76543210', 2, 0, 'UA765432109876543210987654321', 'Одесса, вулиця Дерибасівська, 30', 'santeh@company.ua'),
+(15, 'ТОВ "Будпостач"', '65432109', 3, 1, 'UA654321098765432109876543210', 'Южноукраїнськ, вулиця Леніна, 17', 'budpostach@company.ua');
+
+```
+
+### **Посади**
+```
+INSERT INTO positions (contact_id, legalperson_id, priority_contact, position) VALUES
+(10, 1, 1, 'Директор'),
+(11, 2, 1, 'Керівник'),
+(12, 3, 1, 'Бухгалтер'),
+(13, 4, 1, 'Директор'),
+(14, 5, 1, 'Керівник'),
+(15, 6, 1, 'Бухгалтер'),
+(16, 7, 1, 'Директор'),
+(17, 8, 1, 'Керівник'),
+(18, 9, 1, 'Бухгалтер'),
+(19, 10, 1, 'Директор');
+
 ```
 
 
