@@ -30,11 +30,12 @@
             </TabItem.Header>
         </TabItem>
 
+        
         <!-- Статистика -->
         <TabItem>
             <TabItem.Header>
                 <WrapPanel>
-                    <TextBlock Text="&#xf201; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="&#xf201; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                     <TextBlock Text="Статистика"/>
                 </WrapPanel>
             </TabItem.Header>
@@ -47,11 +48,12 @@
             </TabItem.Content>
         </TabItem>
 
-        <!-- Статистика -->
-        <TabItem IsSelected="True" >
+        
+        <!-- Контакти -->
+        <TabItem>
             <TabItem.Header>
                 <WrapPanel>
-                    <TextBlock Text="&#xf2b9; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="&#xf2b9; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                     <TextBlock Text="Контакти"/>
                 </WrapPanel>
             </TabItem.Header>
@@ -79,6 +81,22 @@
                         <!-- Інфо, Додати, Видалити -->
 
                         <Button Grid.Column="0"
+                                x:Name="ViewContactButton" Click="ContactsListBoxItem_MouseDoubleClick"
+                                Background="{StaticResource pc_b_yellow}" 
+                                Style="{StaticResource MenuButton}">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xf06e; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                    <TextBlock>Огляд</TextBlock>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Grid.Column="1"
                                 x:Name="CreateContactButton" Click="CreateContactButton_Click"
                                 Background="{StaticResource pc_b_green}" 
                                 Style="{StaticResource MenuButton}">
@@ -89,13 +107,13 @@
                             </Button.Resources>
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xf0fe; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock Text="&#xf0fe; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                                     <TextBlock>Додати</TextBlock>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                        <Button Grid.Column="1"
-                                x:Name="ViewContactButton" Click="ContactsListBoxItem_MouseDoubleClick"
+                        <Button Grid.Column="2" 
+                                x:Name="EditContactButton" Click="EditContactButton_Click"
                                 Background="{StaticResource pc_b_blue}" 
                                 Style="{StaticResource MenuButton}">
                             <Button.Resources>
@@ -105,23 +123,7 @@
                             </Button.Resources>
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xf06e; " FontFamily="Font Awesome 6 Free Solid"/>
-                                    <TextBlock>Огляд</TextBlock>
-                                </StackPanel>
-                            </Button.Content>
-                        </Button>
-                        <Button Grid.Column="2" 
-                                x:Name="EditContactButton" Click="EditContactButton_Click"
-                                Background="{StaticResource pc_b_yellow}" 
-                                Style="{StaticResource MenuButton}">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="5"/>
-                                </Style>
-                            </Button.Resources>
-                            <Button.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xf044; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock Text="&#xf044; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                                     <TextBlock>Редагувати</TextBlock>
                                 </StackPanel>
                             </Button.Content>
@@ -137,7 +139,7 @@
                             </Button.Resources>
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xf2ed; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock Text="&#xf2ed; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                                     <TextBlock>Видалити</TextBlock>
                                 </StackPanel>
                             </Button.Content>
@@ -178,7 +180,7 @@
                                          Background="Transparent" BorderThickness="0">
                                     <TextBlock Margin="0" Foreground="{StaticResource pc_red}"
                                                VerticalAlignment="Center" HorizontalAlignment="Center"
-                                               Text="&#xf00d; " FontFamily="Font Awesome 6 Free Solid"/>
+                                               Text="&#xf00d; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                                 </Button>
                             </Grid>
                         </Border>
@@ -189,10 +191,10 @@
                                 CornerRadius="10"
                                 Margin="5 5 10 10">
                             <ComboBox x:Name="ContactStatusComboBox"
+                                      SelectionChanged="ContactStatusComboBox_SelectionChanged"
                                       Style="{DynamicResource ComboBoxTransparentStyle}"
                                       Background="Transparent"
-                                      ItemsSource="{Binding contactStatuses}"
-                                      SelectionChanged="ContactStatusComboBox_SelectionChanged">
+                                      ItemsSource="{Binding contactStatuses}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Path=StatusName}"
@@ -204,14 +206,14 @@
                             </ComboBox>
                         </Border>
 
-                        <Button Grid.Column="4" Margin="0 10 15 15"
+                        <Button Grid.Column="4" Margin="0 10 15 15" Visibility="Hidden"
                                 x:Name="ClearSelectedStatusButton" Click="ClearSelectedStatusButton_Click"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 VerticalAlignment="Center" HorizontalAlignment="Center">
                             <TextBlock Text="&#xf00d;" Margin="0" Padding="0"
                                        Foreground="{StaticResource pc_red}"
-                                       FontFamily="Font Awesome 6 Free Solid"/>
+                                       FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                         </Button>
                     </Grid>
 
@@ -274,28 +276,651 @@
             </TabItem.Content>
         </TabItem>
 
+        
         <!-- Дзвінки -->
-        <TabItem>
+        <TabItem IsSelected="True">
             <TabItem.Header>
                 <WrapPanel>
-                    <TextBlock Text="&#xf879; " FontFamily="Font Awesome 6 Free Solid" 
+                    <TextBlock Text="&#xf095; " FontFamily="/Fonts/#Font Awesome 6 Free Solid" 
                                x:Name="CallIcon" Visibility="Visible"/>
-                    <TextBlock Text="&#xf06a; " FontFamily="Font Awesome 6 Free Solid" 
+                    <TextBlock Text="&#xf06a; " FontFamily="/Fonts/#Font Awesome 6 Free Solid" 
                                Visibility="Collapsed"
                                x:Name="CallWarningIcon"  Foreground="Orange"/>
                     <TextBlock Text="Дзвінки"/>
                 </WrapPanel>
             </TabItem.Header>
             <TabItem.Content>
-                123
+
+                <TabControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TabStripPlacement="Top">
+                    <!--#region PlannedCalls -->
+                    <TabItem Style="{StaticResource SubTabItem}">
+                        <TabItem.Header>
+                            <WrapPanel>
+                                <TextBlock Text="&#xf017; " FontFamily="/Fonts/#Font Awesome 6 Free Regular"/>
+                                <TextBlock Text="Заплановані"/>
+                            </WrapPanel>
+                        </TabItem.Header>
+                        <TabItem.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"
+                                        BorderBrush="{StaticResource pc_red}" BorderThickness="2"/>
+
+                                <Button Grid.Row="0" Grid.Column="0"
+                                    x:Name="CreatePlannedCallButton" Click="CreatePlannedCallButton_Click"
+                                    Margin="7.5"
+                                    Background="{StaticResource pc_b_green}" 
+                                    Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf271; " FontFamily="/Fonts/#Font Awesome 6 Free Regular"/>
+                                            <TextBlock>Запланувати</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="1" IsEnabled="False"
+                                        x:Name="StartPlannedCallButton" Click="StartPlannedCallButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_yellow}"
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf0fe; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Створити</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="2" IsEnabled="False"
+                                        x:Name="EditPlannedCallButton" Click="EditPlannedCallButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_blue}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf044; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Редагувати</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="3" IsEnabled="False"
+                                        x:Name="DeletePlannedCallButton" Click="DeletePlannedCallButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_red}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf3dd; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Відмінити</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+
+
+
+                                <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 0"
+                                         x:Name="PlannedCallsListBox" ItemsSource="{Binding plannedCalls}"
+                                         ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                                         SelectionChanged="PlannedCallsListBox_SelectionChanged"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="0" Background="{StaticResource pc_white}"
+                                                    Margin="0" Padding="5">
+                                                <Border BorderBrush="{StaticResource pc_black}" 
+                                                        BorderThickness="1" CornerRadius="5">
+                                                    <Border.OpacityMask>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border Background="Black"
+                                                                    SnapsToDevicePixels="True"
+                                                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </Border.OpacityMask>
+                                                    <Grid Background="{StaticResource pc_white}" Margin="5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="3*"/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                            <ColumnDefinition Width="6*"/>
+                                                            <ColumnDefinition Width="5*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+
+
+                                                        <TextBlock Grid.Column="0"
+                                                               TextAlignment="Center" VerticalAlignment="Center"
+                                                               Margin="0" TextWrapping="Wrap"
+                                                               Tag="{Binding Path=color_binding_name}" Initialized="TextBlock_Initialized"
+                                                               Text="{Binding Path=date_str}"/>
+
+                                                        <TextBlock Grid.Column="1" 
+                                                               TextAlignment="Center" VerticalAlignment="Center"
+                                                               Margin="0" TextWrapping="Wrap"
+                                                               Tag="{Binding Path=color_binding_name}" Initialized="TextBlock_Initialized"
+                                                               Text="{Binding Path=time_str}"/>
+
+                                                        <TextBlock Grid.Column="2"
+                                                               TextAlignment="Left" VerticalAlignment="Center"
+                                                               Margin="5 0 0 0" TextWrapping="Wrap"
+                                                               Foreground="{Binding Path=contact.Status.StatusColor}"
+                                                               Text="{Binding Path=contact.PIB}"/>
+
+                                                        <Button Grid.Row="0" Grid.Column="3" Tag="{Binding Path=Id}"
+                                                            x:Name="ShowGoalPlannedCallButton" Click="ShowGoalPlannedCallButton_Click"
+                                                            Margin="0"
+                                                            Background="{StaticResource pc_white}" 
+                                                            Foreground="{StaticResource pc_black}"
+                                                            FontWeight="Medium"
+                                                            Style="{StaticResource MenuButton}">
+                                                            <Button.Resources>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="CornerRadius" Value="5"/>
+                                                                </Style>
+                                                            </Button.Resources>
+                                                            <Button.Content>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock>Детальніше</TextBlock>
+                                                                    <TextBlock Text="&#xf107; " x:Name="ShowGoalPlannedCallDown"
+                                                                           FontFamily="/Fonts/#Font Awesome 6 Free Solid" Visibility="Visible"/>
+                                                                    <TextBlock Text="&#xf106; " x:Name="ShowGoalPlannedCallUp"
+                                                                           FontFamily="/Fonts/#Font Awesome 6 Free Solid" Visibility="Collapsed"/>
+                                                                </StackPanel>
+                                                            </Button.Content>
+                                                        </Button>
+                                                        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
+                                                               x:Name="GoalPlannedCallTextBlock"
+                                                               Visibility="Collapsed"
+                                                               FontSize="16" FontWeight="Light"
+                                                               Margin="0" TextWrapping="Wrap" TextAlignment="Left"
+                                                               Text="{Binding Path=goal}"/>
+
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </TabItem.Content>
+                    </TabItem>
+                    <!--#endregion-->
+
+
+                    <!--#region Calls -->
+                    <TabItem Style="{StaticResource SubTabItem}">
+                        <TabItem.Header>
+                            <WrapPanel>
+                                <TextBlock Text="&#xf1da; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                <TextBlock Text="Історія"/>
+                            </WrapPanel>
+                        </TabItem.Header>
+                        <TabItem.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"
+                                        BorderBrush="{StaticResource pc_red}" BorderThickness="2"/>
+
+                                <Button Grid.Row="0" Grid.Column="0" IsEnabled="True"
+                                        x:Name="StartInnerCallButton" Click="StartInnerCallButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_green}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf2a0; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock FontSize="14">Вхідний<LineBreak/>дзвінок</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="1" IsEnabled="False"
+                                        x:Name="EditCallButton" Click="EditCallButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_blue}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf044; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Редагувати</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="2" IsEnabled="False"
+                                        x:Name="DeleteCallButton" Click="DeleteCallButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_red}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf2ed; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Видалити</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+
+
+                                <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 0"
+                                         x:Name="CallsListBox" ItemsSource="{Binding calls}"
+                                         ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                                         SelectionChanged="CallsListBox_SelectionChanged"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="0" Background="{StaticResource pc_white}"
+                                                Margin="0" Padding="5">
+                                                <Border BorderBrush="{StaticResource pc_black}" 
+                                                    BorderThickness="1" CornerRadius="5" Padding="5">
+                                                    <Border.OpacityMask>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border Background="Black"
+                                                                    SnapsToDevicePixels="True"
+                                                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </Border.OpacityMask>
+                                                    <Grid Background="{StaticResource pc_white}" Margin="5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="3*"/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBlock Grid.Column="0"
+                                                                   Foreground="{Binding Path=contact.Status.StatusColor}"
+                                                                   Text="{Binding Path=contact.PIB}"
+                                                                   TextWrapping="Wrap"/>
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="{Binding Path=date_time, StringFormat='{}{0: dd.MM.yyyy HH:mm}'}"/>
+                                                        <TextBlock Grid.Column="2"
+                                                                   Text="{Binding Path=callResultType.Name}"
+                                                                   TextWrapping="Wrap"/>
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </TabItem.Content>
+                    </TabItem>
+                    <!--#endregion-->
+
+                </TabControl>
             </TabItem.Content>
         </TabItem>
+        
+        
+        <!-- Роботи -->
+        <TabItem>
+            <TabItem.Header>
+                <WrapPanel>
+                    <TextBlock Text="&#xf2bb; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="Клієнти"/>
+                </WrapPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                <TabControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" TabStripPlacement="Top">
+                    <!--#region LegalPerson -->
+                    <TabItem Style="{StaticResource SubTabItem}">
+                        <TabItem.Header>
+                            <WrapPanel>
+                                <TextBlock Text="&#xf275; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                <TextBlock Text="Юридичні"/>
+                            </WrapPanel>
+                        </TabItem.Header>
+                        <TabItem.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"
+                                        BorderBrush="{StaticResource pc_red}" BorderThickness="2"/>
+
+                                <Button Grid.Row="0" Grid.Column="0"
+                                        x:Name="ViewLegalPersonButton" Click="ViewLegalPersonButton_Click"  
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_yellow}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf06e; " FontFamily="/Fonts/#Font Awesome 6 Free Regular"/>
+                                            <TextBlock>Огляд</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="1" IsEnabled="False"
+                                        x:Name="CreateLegalPersonButton" Click="CreateLegalPersonButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_yellow}"
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf0fe; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Додати</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="2" IsEnabled="False"
+                                        x:Name="EditLegalPersonButton" Click="EditLegalPersonButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_blue}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf044; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Редагувати</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="3" IsEnabled="False"
+                                        x:Name="DeleteLegalPerson" Click="DeleteLegalPerson_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_red}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf2ed; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Видалити</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+
+
+
+                                <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 0"
+                                         x:Name="LegalPersonListBox" ItemsSource="{Binding plannedCalls}"
+                                         ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                                         SelectionChanged="LegalPersonListBox_SelectionChanged"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="0" Background="{StaticResource pc_white}"
+                                                    Margin="0" Padding="5">
+                                                <Border BorderBrush="{StaticResource pc_black}" 
+                                                        BorderThickness="1" CornerRadius="5">
+                                                    <Border.OpacityMask>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border Background="Black"
+                                                                        SnapsToDevicePixels="True"
+                                                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </Border.OpacityMask>
+                                                    <Grid Background="{StaticResource pc_white}" Margin="5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="3*"/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                            <ColumnDefinition Width="6*"/>
+                                                            <ColumnDefinition Width="5*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+
+
+                                                        
+
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </TabItem.Content>
+                    </TabItem>
+                    <!--#endregion-->
+
+
+                    <!--#region Calls -->
+                    <TabItem Style="{StaticResource SubTabItem}">
+                        <TabItem.Header>
+                            <WrapPanel>
+                                <TextBlock Text="&#xf06e; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                <TextBlock Text="Фізичні"/>
+                            </WrapPanel>
+                        </TabItem.Header>
+                        <TabItem.Content>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4"
+                                        BorderBrush="{StaticResource pc_red}" BorderThickness="2"/>
+                                
+                                
+                                
+                                <Button Grid.Row="0" Grid.Column="0"
+                                        x:Name="ViewNaturalPersonButton" Click="ViewNaturalPersonButton_Click"  
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_yellow}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf06e; " FontFamily="/Fonts/#Font Awesome 6 Free Regular"/>
+                                            <TextBlock>Огляд</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="1" IsEnabled="False"
+                                        x:Name="CreateNaturalPersonButton" Click="CreateNaturalPersonButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_yellow}"
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf0fe; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Додати</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="2" IsEnabled="False"
+                                        x:Name="EditNaturalPersonButton" Click="EditNaturalPersonButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_blue}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf044; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Редагувати</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                                <Button Grid.Row="0" Grid.Column="3" IsEnabled="False"
+                                        x:Name="DeleteNaturalPersonButton" Click="DeleteNaturalPersonButton_Click"
+                                        Margin="7.5"
+                                        Background="{StaticResource pc_b_red}" 
+                                        Style="{StaticResource MenuButton}">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="5"/>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xf2ed; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                            <TextBlock>Видалити</TextBlock>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+
+
+
+                                <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 0"
+                                         x:Name="NaturalPersonListBox" ItemsSource="{Binding plannedCalls}"
+                                         ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                                         SelectionChanged="NaturalPersonListBox_SelectionChanged"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="0" Background="{StaticResource pc_white}"
+                                                    Margin="0" Padding="5">
+                                                <Border BorderBrush="{StaticResource pc_black}" 
+                                                        BorderThickness="1" CornerRadius="5">
+                                                    <Border.OpacityMask>
+                                                        <VisualBrush>
+                                                            <VisualBrush.Visual>
+                                                                <Border Background="Black"
+                                                                        SnapsToDevicePixels="True"
+                                                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                            </VisualBrush.Visual>
+                                                        </VisualBrush>
+                                                    </Border.OpacityMask>
+                                                    <Grid Background="{StaticResource pc_white}" Margin="5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="3*"/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                            <ColumnDefinition Width="6*"/>
+                                                            <ColumnDefinition Width="5*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                    </Grid>
+                                                </Border>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </TabItem.Content>
+                    </TabItem>
+                    <!--#endregion-->
+
+                </TabControl>
+            </TabItem.Content>
+        </TabItem>
+        
 
         <!-- Роботи -->
         <TabItem>
             <TabItem.Header>
                 <WrapPanel>
-                    <TextBlock Text="&#xf0b1; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="&#xf0b1; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                     <TextBlock Text="Роботи"/>
                 </WrapPanel>
             </TabItem.Header>
@@ -308,7 +933,7 @@
         <TabItem>
             <TabItem.Header>
                 <WrapPanel>
-                    <TextBlock Text="&#xf073; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="&#xf073; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                     <TextBlock Text="Графік"/>
                 </WrapPanel>
             </TabItem.Header>
@@ -321,7 +946,7 @@
         <TabItem>
             <TabItem.Header>
                 <WrapPanel>
-                    <TextBlock Text="&#xf500; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="&#xf500; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                     <TextBlock Text="Бригади"/>
                 </WrapPanel>
             </TabItem.Header>
@@ -334,7 +959,7 @@
         <TabItem>
             <TabItem.Header>
                 <WrapPanel>
-                    <TextBlock Text="&#xf7d9; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="&#xf7d9; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                     <TextBlock Text="Обладнання"/>
                 </WrapPanel>
             </TabItem.Header>
@@ -347,7 +972,7 @@
         <TabItem>
             <TabItem.Header>
                 <WrapPanel>
-                    <TextBlock Text="&#xf0c9; " FontFamily="Font Awesome 6 Free Solid"/>
+                    <TextBlock Text="&#xf0c9; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                     <TextBlock Text="Статуси"/>
                 </WrapPanel>
             </TabItem.Header>
@@ -379,7 +1004,7 @@
                             </Button.Resources>
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xf0fe; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock Text="&#xf0fe; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                                     <TextBlock>Додати</TextBlock>
                                 </StackPanel>
                             </Button.Content>
@@ -396,7 +1021,7 @@
                             </Button.Resources>
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xf044; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock Text="&#xf044; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                                     <TextBlock>Редагувати</TextBlock>
                                 </StackPanel>
                             </Button.Content>
@@ -413,7 +1038,7 @@
                             </Button.Resources>
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xf2ed; " FontFamily="Font Awesome 6 Free Solid"/>
+                                    <TextBlock Text="&#xf2ed; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                                     <TextBlock>Видалити</TextBlock>
                                 </StackPanel>
                             </Button.Content>

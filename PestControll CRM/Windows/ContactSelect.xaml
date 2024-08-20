@@ -1,0 +1,199 @@
+﻿<Window x:Class="PestControll_CRM.Windows.ContactSelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PestControll_CRM.Windows"
+        mc:Ignorable="d"
+        Icon="/Images/CockroachIcon.ico"
+        Title="Вибір контакту"
+        Height="500" Width="950">
+
+    <Window.Resources>
+        <ResourceDictionary Source="/Themes/WhiteRed.xaml"/>
+    </Window.Resources>
+
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+               Content="Контакти"
+               Background="{StaticResource pc_red}"
+               Foreground="{StaticResource pc_white}"
+               FontSize="28"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <!-- Пошук/Сортування -->
+        <Grid Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Grid.ColumnSpan="3" Margin="5"
+                    BorderThickness="3" BorderBrush="{StaticResource pc_black}"
+                    CornerRadius="10" ClipToBounds="True">
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="1" Margin="0"
+                             x:Name="ContactSearchTextBox" 
+                             TextChanged="ContactSearchTextBox_TextChanged"
+                             KeyDown="ContactSearchTextBox_KeyDown"
+                             Foreground="{StaticResource pc_black}"
+                             BorderBrush="Transparent" BorderThickness="0"
+                             VerticalAlignment="Center"/>
+                    <Button  Grid.Column="2"
+                             Visibility="Hidden"
+                             x:Name="ClearSearch" Click="ClearSearch_Click"
+                             Padding="0" Margin="10 0" Style="{StaticResource MenuButton}"
+                             Background="Transparent" BorderThickness="0">
+                        <TextBlock Margin="0" Foreground="{StaticResource pc_red}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Text="&#xf00d; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <Border Grid.Column="3"
+                    BorderBrush="{StaticResource pc_black}"
+                    BorderThickness="3"
+                    CornerRadius="10"
+                    Margin="5">
+                <ComboBox x:Name="ContactStatusComboBox"
+                          SelectionChanged="ContactStatusComboBox_SelectionChanged"
+                          Style="{DynamicResource ComboBoxTransparentStyle}"
+                          Background="Transparent"
+                          ItemsSource="{Binding contactStatuses}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=StatusName}"
+                                       Foreground="{StaticResource pc_black}"
+                                       Background="Transparent"
+                                       VerticalAlignment="Center"
+                                       Padding="2"
+                                       FontSize="18"
+                                       FontFamily="Cascadia Mono"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Border>
+
+            <Button Grid.Column="4" Margin="0 10 15 15" Visibility="Hidden"
+                    x:Name="ClearSelectedStatusButton" Click="ClearSelectedStatusButton_Click"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="&#xf00d;" Margin="0" Padding="0"
+                           Foreground="{StaticResource pc_red}"
+                           FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+            </Button>
+        </Grid>
+
+        <!-- Контакти -->
+        <Border Grid.Row="2"  Grid.Column="0" Grid.ColumnSpan="2" Margin="5 5 5 5"
+                BorderThickness="2" BorderBrush="{StaticResource pc_red}" CornerRadius="5">
+            <ListBox x:Name="ContactsListBox" ItemsSource="{Binding contacts}"
+                     ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                     MouseDoubleClick="ContactsListBox_MouseDoubleClick"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" HorizontalAlignment="Center"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{Binding Path=Status.StatusColor}" 
+                                BorderThickness="5" CornerRadius="5">
+                            <Border.OpacityMask>
+                                <VisualBrush>
+                                    <VisualBrush.Visual>
+                                        <Border Background="Black"
+                                                SnapsToDevicePixels="True"
+                                                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Border.OpacityMask>
+                            <Grid Width="240" MinHeight="150" Background="White" Margin="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition MinHeight="30"/>
+                                    <RowDefinition />
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding Path=Status.StatusName}"  VerticalAlignment="Center" Padding="10 0 0 0" Margin="0"
+                                           Background="{Binding Path=Status.StatusColor}" Foreground="{StaticResource pc_white}" FontWeight="Black">
+                                    <TextBlock.Resources>
+                                        <ResourceDictionary Source="/Themes/WhiteRed.xaml"/>
+                                    </TextBlock.Resources>
+                                </TextBlock>
+                                <TextBlock Grid.Row="1" Text="{Binding Path=PIB}" VerticalAlignment="Top" Padding="10 0 0 0"
+                                           FontWeight="Bold" FontSize="18" TextWrapping="Wrap"/>
+                                <TextBlock Grid.Row="2" Text="{Binding Path=PhoneNumbersStr}" VerticalAlignment="Top" Padding="10 0 0 0"
+                                           FontWeight="Medium" FontSize="18" TextWrapping="Wrap" Focusable="False"/>
+                                <TextBlock Grid.Row="3" Text="{Binding Path=Email}"  VerticalAlignment="Center" Padding="10 0 0 2"
+                                           FontWeight="Bold" FontSize="10" TextWrapping="Wrap"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <Button Grid.Row="3" Grid.Column="0"
+                x:Name="CreateContactButton" Click="CreateContactButton_Click"
+                Style="{StaticResource MenuButton}"
+                Background="{StaticResource pc_b_yellow}" Margin="5" MaxWidth="650">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xf0fe; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                    <TextBlock>Створити</TextBlock>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
+        <Button Grid.Row="3" Grid.Column="1"
+                x:Name="SelectContactButton" Click="SelectContactButton_Click"
+                Style="{StaticResource MenuButton}"
+                Background="{StaticResource pc_b_green}" Margin="5" MaxWidth="650">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xf00c; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                    <TextBlock>Вибрати</TextBlock>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+</Window>

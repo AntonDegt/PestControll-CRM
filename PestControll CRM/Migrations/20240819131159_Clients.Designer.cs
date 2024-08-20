@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PestControll_CRM.Data;
 
@@ -10,9 +11,11 @@ using PestControll_CRM.Data;
 namespace PestControll_CRM.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240819131159_Clients")]
+    partial class Clients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,7 +207,7 @@ namespace PestControll_CRM.Migrations
                         .HasColumnType("varchar(40)")
                         .HasColumnName("name");
 
-                    b.Property<int>("taxsystem_id")
+                    b.Property<int?>("taxsystem_id")
                         .HasColumnType("int")
                         .HasColumnName("taxsystem_id");
 
@@ -354,9 +357,7 @@ namespace PestControll_CRM.Migrations
                 {
                     b.HasOne("PestControll_CRM.Data.Entity.TaxSystem", "TaxSystem")
                         .WithMany()
-                        .HasForeignKey("taxsystem_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("taxsystem_id");
 
                     b.Navigation("TaxSystem");
                 });

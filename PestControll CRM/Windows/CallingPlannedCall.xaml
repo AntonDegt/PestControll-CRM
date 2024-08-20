@@ -1,0 +1,152 @@
+﻿<Window x:Class="PestControll_CRM.Windows.CallingPlannedCall"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:PestControll_CRM.Windows"
+        mc:Ignorable="d"
+        Icon="/Images/CockroachIcon.ico"
+        Title="CallingPlannedCall" Height="450" Width="800">
+
+    <Window.Resources>
+        <ResourceDictionary Source="/Themes/WhiteRed.xaml"/>
+    </Window.Resources>
+
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Content="Запланований виклик"
+               Background="{StaticResource pc_red}"
+               Foreground="{StaticResource pc_white}"
+               FontSize="28"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Margin="25 5" MaxWidth="650">
+
+                <Border x:Name="ContactInfoGrid" Visibility="Visible"
+                        Margin="5" CornerRadius="5"
+                        BorderBrush="{StaticResource pc_red}" BorderThickness="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="{Binding Path=plannedCall.contact.PIB}"/>
+                        <TextBlock Grid.Row="1" 
+                                   Text="{Binding Path=plannedCall.contact.Status.StatusName}"
+                                   Foreground="{Binding Path=plannedCall.contact.Status.StatusColor}"/>
+                        <TextBlock Grid.Row="2" Text="{Binding Path=plannedCall.contact.PhoneNumbersStr}"/>
+                    </Grid>
+                </Border>
+
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Дата/Час"/>
+                    <xctk:DateTimePicker Grid.Column="1"
+                                         TextAlignment="Left" Padding="2"
+                                         FontFamily="Cascadia Mono" FontSize="18"
+                                         x:Name="callingDateTimePicker"
+                                         Format="Custom"
+                                         FormatString = "dd.mm.yyyy HH:mm"
+                                         TimeFormat="Custom"
+                                         TimeFormatString="HH:mm"/>
+                </Grid>
+
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Column="0" Text="Результат"/>
+                    <ComboBox  Grid.Column="1" x:Name="ResultComboBox"
+                               SelectionChanged="ResultComboBox_SelectionChanged"
+                               ItemsSource="{Binding resultTypes, Mode=OneWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+                
+                <Border x:Name="ReplacePlannedCallGrids" Visibility="Collapsed"
+                        Margin="5" CornerRadius="5"
+                        BorderBrush="{StaticResource pc_red}" BorderThickness="2">
+                    <!--Date-->
+                    <Grid Style="{StaticResource Params}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock  Grid.Row="0" Grid.Column="0" Text="Дата" VerticalAlignment="Center"/>
+                        <DatePicker Grid.Row="0" Grid.Column="1" x:Name="DateDatePicker" Padding="2"
+                                SelectedDate="{Binding Path=plannedCall.dateDateTime, Mode=OneWay}"
+                                FontFamily="Cascadia Mono" FontSize="18" Text=""/>
+
+                        <TextBlock       Grid.Row="1" Grid.Column="0" Text="Час" VerticalAlignment="Center"/>
+                        <xctk:TimePicker Grid.Row="1" Grid.Column="1" x:Name="TimeTimePicker" 
+                                         TextAlignment="Left" Padding="2"
+                                         FontFamily="Cascadia Mono" FontSize="18"
+                                         Format="Custom" FormatString="HH:mm"/>
+
+                        <TextBlock       Grid.Row="2" Grid.Column="0" Text="Мета" VerticalAlignment="Center"/>
+                        <TextBox         Grid.Row="2" Grid.Column="1" x:Name="GoalTextBox"
+                                         Text="{Binding plannedCall.goal, Mode=OneTime}" TextWrapping="Wrap"
+                                         AcceptsReturn="True" MaxLines="99"/>
+                    </Grid>
+                </Border>
+
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Коментарі"/>
+                    <TextBox Grid.Column="1" x:Name="CommentTextBox"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True" MaxLines="99"/> 
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Column="0" Grid.Row="2" x:Name="FinishPlannedCall" Click="FinishPlannedCall_Click"
+                Style="{StaticResource MenuButton}"
+                Background="{StaticResource pc_b_green}" Margin="5" MaxWidth="650">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xf00c; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                    <TextBlock>Завершити дзвінок</TextBlock>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+    
+</Window>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PestControll_CRM.Data;
 
@@ -10,9 +11,11 @@ using PestControll_CRM.Data;
 namespace PestControll_CRM.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240819113639_Contacts_and_Calls")]
+    partial class Contacts_and_Calls
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,32 +95,6 @@ namespace PestControll_CRM.Migrations
                     b.ToTable("CallTypes");
                 });
 
-            modelBuilder.Entity("PestControll_CRM.Data.Entity.Clients.Position", b =>
-                {
-                    b.Property<int>("contact_id")
-                        .HasColumnType("int")
-                        .HasColumnName("contact_id");
-
-                    b.Property<int>("legalperson_id")
-                        .HasColumnType("int")
-                        .HasColumnName("legalperson_id");
-
-                    b.Property<string>("position")
-                        .IsRequired()
-                        .HasColumnType("varchar(40)")
-                        .HasColumnName("position");
-
-                    b.Property<bool>("priorityContact")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("priority_contact");
-
-                    b.HasKey("contact_id");
-
-                    b.HasIndex("legalperson_id");
-
-                    b.ToTable("Positions");
-                });
-
             modelBuilder.Entity("PestControll_CRM.Data.Entity.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -173,69 +150,6 @@ namespace PestControll_CRM.Migrations
                     b.ToTable("ContactStatus");
                 });
 
-            modelBuilder.Entity("PestControll_CRM.Data.Entity.LegalPerson", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("EDRPOU")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("edrpou");
-
-                    b.Property<string>("address")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("address");
-
-                    b.Property<string>("current_account")
-                        .IsRequired()
-                        .HasColumnType("varchar(40)")
-                        .HasColumnName("current_account");
-
-                    b.Property<string>("email")
-                        .HasColumnType("varchar(40)")
-                        .HasColumnName("email");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("varchar(40)")
-                        .HasColumnName("name");
-
-                    b.Property<int>("taxsystem_id")
-                        .HasColumnType("int")
-                        .HasColumnName("taxsystem_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("taxsystem_id");
-
-                    b.ToTable("LegalPersons");
-                });
-
-            modelBuilder.Entity("PestControll_CRM.Data.Entity.NaturalPerson", b =>
-                {
-                    b.Property<int>("contact_id")
-                        .HasColumnType("int")
-                        .HasColumnName("contact_id");
-
-                    b.Property<string>("IPN")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("ipn");
-
-                    b.Property<string>("address")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("address");
-
-                    b.HasKey("contact_id");
-
-                    b.ToTable("NaturalPersons");
-                });
-
             modelBuilder.Entity("PestControll_CRM.Data.Entity.PhoneNumber", b =>
                 {
                     b.Property<string>("phone_number")
@@ -284,23 +198,6 @@ namespace PestControll_CRM.Migrations
                     b.ToTable("PlannedCalls");
                 });
 
-            modelBuilder.Entity("PestControll_CRM.Data.Entity.TaxSystem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TaxSystems");
-                });
-
             modelBuilder.Entity("PestControll_CRM.Data.Entity.Call", b =>
                 {
                     b.HasOne("PestControll_CRM.Data.Entity.CallResultType", "callResultType")
@@ -322,25 +219,6 @@ namespace PestControll_CRM.Migrations
                     b.Navigation("contact");
                 });
 
-            modelBuilder.Entity("PestControll_CRM.Data.Entity.Clients.Position", b =>
-                {
-                    b.HasOne("PestControll_CRM.Data.Entity.Contact", "contact")
-                        .WithMany()
-                        .HasForeignKey("contact_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PestControll_CRM.Data.Entity.LegalPerson", "legalPerson")
-                        .WithMany()
-                        .HasForeignKey("legalperson_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("contact");
-
-                    b.Navigation("legalPerson");
-                });
-
             modelBuilder.Entity("PestControll_CRM.Data.Entity.Contact", b =>
                 {
                     b.HasOne("PestControll_CRM.Data.Entity.ContactStatus", "Status")
@@ -348,28 +226,6 @@ namespace PestControll_CRM.Migrations
                         .HasForeignKey("contactstatus_id");
 
                     b.Navigation("Status");
-                });
-
-            modelBuilder.Entity("PestControll_CRM.Data.Entity.LegalPerson", b =>
-                {
-                    b.HasOne("PestControll_CRM.Data.Entity.TaxSystem", "TaxSystem")
-                        .WithMany()
-                        .HasForeignKey("taxsystem_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TaxSystem");
-                });
-
-            modelBuilder.Entity("PestControll_CRM.Data.Entity.NaturalPerson", b =>
-                {
-                    b.HasOne("PestControll_CRM.Data.Entity.Contact", "contact")
-                        .WithMany()
-                        .HasForeignKey("contact_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("contact");
                 });
 
             modelBuilder.Entity("PestControll_CRM.Data.Entity.PhoneNumber", b =>

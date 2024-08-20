@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PestControll_CRM.Windows.CRUD"
         mc:Ignorable="d"
+        Icon="/Images/CockroachIcon.ico"
         Closing="WindowCRUD_Closing"
         Loaded="WindowCRUD_Loaded"
         x:Name="WindowCRUD"
-        Title="{Binding WindowTitle}"
+        Title=""
         MinWidth="750"
         Height="500" Width="750">
 
@@ -114,7 +115,7 @@
                                              Text="{Binding Path=phone_number_without_regions, Mode=OneWay}"/>
                                     <Button Grid.Column="2"
                                             x:Name="DeletePhoneNumber" Click="DeletePhoneNumber_Click"
-                                            Content="&#xf00d;" FontFamily="Font Awesome 6 Free Solid"
+                                            Content="&#xf00d;" FontFamily="/Fonts/#Font Awesome 6 Free Solid"
                                             BorderThickness="0" Background="Transparent" Foreground="{StaticResource pc_red}"/>
                                 </Grid>
                             </DataTemplate>
@@ -134,7 +135,7 @@
                         </Button.Resources>
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#x2b; " FontFamily="Font Awesome 6 Free Solid"/>
+                                <TextBlock Text="&#x2b; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                                 <TextBlock>Додати</TextBlock>
                             </StackPanel>
                         </Button.Content>
@@ -185,7 +186,7 @@
                 </Button.Resources>
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xf044; " FontFamily="Font Awesome 6 Free Solid"/>
+                        <TextBlock Text="&#xf044; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                         <TextBlock>Редагувати</TextBlock>
                     </StackPanel>
                 </Button.Content>
@@ -201,7 +202,7 @@
                 </Button.Resources>
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xf00c; " FontFamily="Font Awesome 6 Free Solid"/>
+                        <TextBlock Text="&#xf00c; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
                         <TextBlock>Зберегти</TextBlock>
                     </StackPanel>
                 </Button.Content>

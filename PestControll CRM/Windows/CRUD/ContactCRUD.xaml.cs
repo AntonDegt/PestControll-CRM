@@ -32,7 +32,8 @@ namespace PestControll_CRM.Windows.CRUD
         public enum ContactAction { Read=0, Create, Update}
         private ContactAction action;
 
-        public bool changed { get; set; } = false;
+        private bool closeAfterSavings;
+        private bool changed = false;
 
         public delegate void contactsListBoxUpdate();
         public contactsListBoxUpdate update;
@@ -47,15 +48,16 @@ namespace PestControll_CRM.Windows.CRUD
 
 
 
-        public ContactCRUD(Contact contact, ContactAction action, DataContext data, contactsListBoxUpdate update)
+        public ContactCRUD(Contact contact, ContactAction action, DataContext data, contactsListBoxUpdate update, bool closeAfterSaving = false)
         {
             this.contact = contact;
             this.action = action;
             this.DataContext = this;
             this.data = data;
             this.update = update;
+            this.closeAfterSavings = closeAfterSaving;
 
-            statuses = new ObservableCollection<ContactStatus>(data.ContactStatuses.ToList());
+            statuses = new ObservableCollection<ContactStatus>(data.contactStatuses.ToList());
 
             if (contact.PhoneNumbers == null)
                 contact.PhoneNumbers = new ObservableCollection<PhoneNumber>();
@@ -162,7 +164,7 @@ namespace PestControll_CRM.Windows.CRUD
             switch (action)
             {
                 case ContactAction.Create:
-                    data.Contacts.Add(contact);
+                    data.contacts.Add(contact);
                     break;
             }
 
@@ -177,6 +179,10 @@ namespace PestControll_CRM.Windows.CRUD
 
             action = ContactAction.Update;
             changed = false;
+            if (closeAfterSavings)
+                this.Close();
+
+            MessageBox.Show("Успішно збережено!", "Збережено!", MessageBoxButton.OK, MessageBoxImage.Information);
             return true;
         }
         private void EditContactButton_Click(object sender, RoutedEventArgs e) => CheckAction(ContactAction.Update);
@@ -316,9 +322,9 @@ namespace PestControll_CRM.Windows.CRUD
 
         private void StatusesComboBox_DropDownOpened(object sender, EventArgs e)
         {
-            if (statuses.Count != data.ContactStatuses.Count())
+            if (statuses.Count != data.contactStatuses.Count())
             {
-                statuses = new ObservableCollection<ContactStatus>(data.ContactStatuses.ToList());
+                statuses = new ObservableCollection<ContactStatus>(data.contactStatuses.ToList());
                 StatusesComboBox.ItemsSource = statuses;
             }
         }

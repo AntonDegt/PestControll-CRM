@@ -1,0 +1,179 @@
+﻿<Window x:Class="PestControll_CRM.Windows.CRUD.CallCRUD"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:PestControll_CRM.Windows.CRUD"
+        mc:Ignorable="d"
+        Closing="WindowCRUD_Closing"
+        Icon="/Images/CockroachIcon.ico"
+        Title="Редагування дзвінка"
+        Height="450" Width="800">
+
+    <Window.Resources>
+        <ResourceDictionary Source="/Themes/WhiteRed.xaml"/>
+    </Window.Resources>
+
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Content="Дзвінок"
+               Background="{StaticResource pc_red}"
+               Foreground="{StaticResource pc_white}"
+               FontSize="28"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Margin="25 5" MaxWidth="650">
+                
+                <!--Contact-->
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Контакт"/>
+                    <Button Grid.Column="1" Grid.Row="0" x:Name="SelectContactButton" Click="SelectContactButton_Click"
+                            Style="{StaticResource MenuButton}"
+                            Background="{StaticResource pc_b_blue}" Margin="0" MaxWidth="650">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xf007; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                <TextBlock>Вибрати</TextBlock>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                            x:Name="ContactInfoGrid" Visibility="Visible"
+                            Margin="5" CornerRadius="5"
+                            BorderBrush="{StaticResource pc_red}" BorderThickness="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" x:Name="PIBTextBlock"/>
+                            <TextBlock Grid.Row="1" x:Name="StatusTextBlock"/>
+                            <TextBlock Grid.Row="2" x:Name="PhoneNumbersTextBlock"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!--Call type-->
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Тип дзвінка" VerticalAlignment="Center"/>
+                    <ComboBox  Grid.Column="1" Padding="2"
+                               x:Name="CallTypeComboBox" SelectionChanged="CallTypeComboBox_SelectionChanged"
+                               SelectedItem="{Binding call.callType, Mode=OneWay}"
+                               ItemsSource="{Binding callTypes}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+
+
+                <!--Call Result type-->
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Тип результату дзвінка" VerticalAlignment="Center"/>
+                    <ComboBox  Grid.Column="1" Padding="2"
+                               x:Name="CallResultTypeComboBox" SelectionChanged="ResultComboBox_SelectionChanged"
+                               SelectedItem="{Binding call.callResultType, Mode=OneTime}"
+                               ItemsSource="{Binding callResultTypes}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+                
+                
+                <!--Date Time-->
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Дата/Час"/>
+                    <xctk:DateTimePicker Grid.Column="1"
+                                         x:Name="callingDateTimePicker"
+                                         ValueChanged="callingDateTimePicker_ValueChanged"
+                                         TextAlignment="Left" Padding="2"
+                                         FontFamily="Cascadia Mono" FontSize="18"
+                                         Format="Custom"
+                                         FormatString = "dd.mm.yyyy HH:mm"
+                                         TimeFormat="Custom"
+                                         TimeFormatString="HH:mm"/>
+                </Grid>
+
+                <!-- Comment -->
+                <Grid Style="{StaticResource Params}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0" Text="Коментарі"/>
+                    <TextBox Grid.Column="1" x:Name="CommentTextBox"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True" MaxLines="99"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        
+        
+        
+        
+        
+        
+        <Button Grid.Column="0" Grid.Row="2" x:Name="SaveCall" Click="SaveCall_Click"
+            Style="{StaticResource MenuButton}"
+            Background="{StaticResource pc_b_green}" Margin="5" MaxWidth="650">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xf00c; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                    <TextBlock>Зберегти</TextBlock>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+    </Grid>
+
+</Window>

@@ -1,6 +1,5 @@
 ﻿using PestControll_CRM.Data;
 using PestControll_CRM.Data.Entity;
-using PestControll_CRM.Migrations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -85,23 +84,29 @@ namespace PestControll_CRM.Windows.CRUD
             status.StatusColor = ColorTextBox.Text;
 
             if (action == ActionStatus.Create)
-                data.ContactStatuses.Add(status);
+                data.contactStatuses.Add(status);
 
             data.SaveChanges();
             action = ActionStatus.Update;
             changed = false;
             CheckAction();
             update.Invoke();
+
+
+            MessageBox.Show("Успішно збережено!", "Збережено!", MessageBoxButton.OK, MessageBoxImage.Information);
             return true;
         }
 
         private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e) => changed = true;
         private void ColorTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ColorTextBox.Text[0] == '#' && (ColorTextBox.Text.Length == 7 || ColorTextBox.Text.Length == 9))
-                SaveStatusButton.IsEnabled = true;
-            else
-                SaveStatusButton.IsEnabled = false;
+            if (ColorTextBox.Text.Length == 7 || ColorTextBox.Text.Length == 9)
+            {
+                if (ColorTextBox.Text[0] == '#')
+                    SaveStatusButton.IsEnabled = true;
+                else
+                    SaveStatusButton.IsEnabled = false;
+            }
         }
 
         private void WindowCRUD_Loaded(object sender, RoutedEventArgs e) => CheckAction();

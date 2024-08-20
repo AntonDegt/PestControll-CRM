@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Internal;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using PestControll_CRM.Data.Entity;
+using PestControll_CRM.Data.Entity.Clients;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,10 +25,30 @@ namespace PestControll_CRM.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<ContactStatus> ContactStatuses { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
+        // Contacts
+        public DbSet<ContactStatus> contactStatuses { get; set; }
+        public DbSet<Contact> contacts { get; set; }
         public DbSet<PhoneNumber> PhoneNumbers { get; set; }
 
+
+        // Calls
+        public DbSet<CallType> callTypes { get; set; }
+        public DbSet<CallResultType> callResultType { get; set; }
+        public DbSet<Call> calls { get; set; }
+        public DbSet<PlannedCall> plannedCalls { get; set; }
+
+
+        //Clients
+        public DbSet<TaxSystem> taxSystems { get; set; }
+        public DbSet<NaturalPerson> naturalPersons { get; set; }
+        public DbSet<LegalPerson> legalPeople { get; set; }
+        public DbSet<Position> positions { get; set; }
+
+
+
+        public readonly int[] replannedCallVisibilResultsId = { 1, 2 };
+        public readonly int innerCallTypeId = 1;
+        public readonly int outterCallTypeId = 2;
 
 
         private TextBox loginBox;
