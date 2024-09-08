@@ -11,8 +11,8 @@ using PestControll_CRM.Data;
 namespace PestControll_CRM.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240819131159_Clients")]
-    partial class Clients
+    [Migration("20240820122256_contacts_calls_clients")]
+    partial class contacts_calls_clients
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -188,6 +188,10 @@ namespace PestControll_CRM.Migrations
                         .HasColumnType("varchar(20)")
                         .HasColumnName("edrpou");
 
+                    b.Property<bool>("PDV")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("pdv");
+
                     b.Property<string>("address")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
@@ -207,7 +211,7 @@ namespace PestControll_CRM.Migrations
                         .HasColumnType("varchar(40)")
                         .HasColumnName("name");
 
-                    b.Property<int?>("taxsystem_id")
+                    b.Property<int>("taxsystem_id")
                         .HasColumnType("int")
                         .HasColumnName("taxsystem_id");
 
@@ -357,7 +361,9 @@ namespace PestControll_CRM.Migrations
                 {
                     b.HasOne("PestControll_CRM.Data.Entity.TaxSystem", "TaxSystem")
                         .WithMany()
-                        .HasForeignKey("taxsystem_id");
+                        .HasForeignKey("taxsystem_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TaxSystem");
                 });

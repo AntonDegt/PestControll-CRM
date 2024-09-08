@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PestControll_CRM.Windows.CRUD"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Icon="/Images/CockroachIcon.ico"
         x:Name="WindowCRUD"
@@ -49,9 +50,9 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="Колір"/>
-                    <TextBox   Grid.Column="1" x:Name="ColorTextBox" Text="{Binding status.StatucColor , Mode=OneWay}"
-                               TextChanged="ColorTextBox_TextChanged"/>
+                    <TextBlock          Grid.Column="0" Text="Колір"/>
+                    <xctk:ColorPicker   Grid.Column="1" x:Name="StatusColorPicker" SelectedColor="{Binding status.color}"
+                                        SelectedColorChanged="StatusColorPicker_SelectedColorChanged"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

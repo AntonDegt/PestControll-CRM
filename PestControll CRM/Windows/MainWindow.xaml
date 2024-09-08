@@ -40,10 +40,6 @@
                 </WrapPanel>
             </TabItem.Header>
             <TabItem.Content>
-                <!--
-                    Статистика
-                    
-                -->
                 123
             </TabItem.Content>
         </TabItem>
@@ -721,43 +717,17 @@
                                          SelectionChanged="LegalPersonListBox_SelectionChanged"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border BorderThickness="0" Background="{StaticResource pc_white}"
-                                                    Margin="0" Padding="5">
-                                                <Border BorderBrush="{StaticResource pc_black}" 
-                                                        BorderThickness="1" CornerRadius="5">
-                                                    <Border.OpacityMask>
-                                                        <VisualBrush>
-                                                            <VisualBrush.Visual>
-                                                                <Border Background="Black"
-                                                                        SnapsToDevicePixels="True"
-                                                                        CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
-                                                                        Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
-                                                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"/>
-                                                            </VisualBrush.Visual>
-                                                        </VisualBrush>
-                                                    </Border.OpacityMask>
-                                                    <Grid Background="{StaticResource pc_white}" Margin="5">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="3*"/>
-                                                            <ColumnDefinition Width="2*"/>
-                                                            <ColumnDefinition Width="6*"/>
-                                                            <ColumnDefinition Width="5*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition/>
-                                                            <RowDefinition/>
-                                                        </Grid.RowDefinitions>
-
-
-                                                        
-
-                                                    </Grid>
-                                                </Border>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel IsItemsHost="True" HorizontalAlignment="Center"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    
+                                    <!--<ListBox.ItemTemplate>
+                                        <DataTemplate>-->
+                                    
+                                    <!--</DataTemplate>
+                                    </ListBox.ItemTemplate>-->
                                 </ListBox>
                             </Grid>
                         </TabItem.Content>

@@ -30,8 +30,14 @@ namespace PestControll_CRM.Data.Entity
 
         [ForeignKey("taxsystem_id")]
         public virtual TaxSystem TaxSystem { get; set; }
-        
-        
+
+
+
+        [Column("pdv", TypeName = "tinyint(1)")]
+        public bool PDV { get; set; }
+
+
+
         [Column("current_account", TypeName = "varchar(40)")]
         public string current_account { get; set; }
 

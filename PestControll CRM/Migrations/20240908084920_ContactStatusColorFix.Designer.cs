@@ -11,8 +11,8 @@ using PestControll_CRM.Data;
 namespace PestControll_CRM.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240819131904_Clients2")]
-    partial class Clients2
+    [Migration("20240908084920_ContactStatusColorFix")]
+    partial class ContactStatusColorFix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,7 +163,7 @@ namespace PestControll_CRM.Migrations
 
                     b.Property<string>("StatusColor")
                         .IsRequired()
-                        .HasColumnType("varchar(10)")
+                        .HasColumnType("varchar(20)")
                         .HasColumnName("StatusColor");
 
                     b.Property<string>("StatusName")
@@ -187,6 +187,10 @@ namespace PestControll_CRM.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnName("edrpou");
+
+                    b.Property<bool>("PDV")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("pdv");
 
                     b.Property<string>("address")
                         .IsRequired()

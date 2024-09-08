@@ -53,10 +53,11 @@ namespace PestControll_CRM.Windows.CRUD
             {
                 case ActionStatus.Update:
                     WindowCRUD.Title = $"Статус: {status.StatusName}";
+                    NameTextBox.Text = status.StatusName;
+                    StatusColorPicker.SelectedColor = status.color;
                     break;
                 case ActionStatus.Create:
                     WindowCRUD.Title = $"Створення статусу";
-                    SaveStatusButton.IsEnabled = false;
                     break;
             }
         }
@@ -69,19 +70,20 @@ namespace PestControll_CRM.Windows.CRUD
         }
         private bool SaveStatus()
         {
-            if (ColorTextBox.Text.Length > 0)
+            Color? color = StatusColorPicker.SelectedColor;
+            if (color == null)
             {
-                if (!(ColorTextBox.Text[0] == '#' && (ColorTextBox.Text.Length == 7 || ColorTextBox.Text.Length == 9)))
-                {
-                    MessageBox.Show("Невірно вказан формат кольору (Потрібно: #FFFFFF)");
-                    return false;
-                }
+                MessageBox.Show("Вкажіть колір.");
+                return false;
             }
-            else
-                MessageBox.Show("Невірно вказан формат кольору (Потрібно: #FFFFFF)");
+            if (!color.HasValue)
+            {
+                MessageBox.Show("Вкажіть колір.");
+                return false;
+            }
 
             status.StatusName = NameTextBox.Text;
-            status.StatusColor = ColorTextBox.Text;
+            status.StatusColor = StatusColorPicker.SelectedColorText;
 
             if (action == ActionStatus.Create)
                 data.contactStatuses.Add(status);
@@ -98,16 +100,7 @@ namespace PestControll_CRM.Windows.CRUD
         }
 
         private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e) => changed = true;
-        private void ColorTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (ColorTextBox.Text.Length == 7 || ColorTextBox.Text.Length == 9)
-            {
-                if (ColorTextBox.Text[0] == '#')
-                    SaveStatusButton.IsEnabled = true;
-                else
-                    SaveStatusButton.IsEnabled = false;
-            }
-        }
+        
 
         private void WindowCRUD_Loaded(object sender, RoutedEventArgs e) => CheckAction();
 
@@ -135,5 +128,7 @@ namespace PestControll_CRM.Windows.CRUD
                 }
             }
         }
+
+        private void StatusColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e) => changed = true;
     }
 }

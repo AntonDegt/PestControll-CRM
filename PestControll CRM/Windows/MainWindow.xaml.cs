@@ -44,33 +44,32 @@ namespace PestControll_CRM.Windows
         {
             this.DataContext = this;
             this.data = data;
+            
             foreach (ContactStatus status in data.contactStatuses.ToList())
             {
-                Contact t = data.contacts.Where(c => c.contactstatus_id == status.Id).First();
+                Contact t = data.contacts.Where(c => c.contactstatus_id == status.Id).FirstOrDefault();
                 if (t != null)
                     data.Entry(t).Reference(c => c.Status).Load();
             }
 
+
             InitializeComponent();
 
-            if (data != null)
+
+            contacts = new ObservableCollection<Contact>(data.contacts.ToList());
+            UpdateStatusesListBox();
+            UpdateContactsListBox();
+            foreach (Contact contact in contacts) 
             {
-                contacts = new ObservableCollection<Contact>(data.contacts.ToList());
-
-                UpdateContactsListBox();
-                foreach (Contact contact in contacts) 
-                {
-                    contact.PhoneNumbers = new ObservableCollection<PhoneNumber>(
-                            data.PhoneNumbers.Where(num => num.Contact == contact)
-                        );
-                }
-
-
-                callTypes = new ObservableCollection<CallType>(data.callTypes.ToList());
-                callResultTypes = new ObservableCollection<CallResultType>(data.callResultType.ToList());
-                UpdateCallsListBox();
-                UpdatePlannedCallsListBox();
+                contact.PhoneNumbers = new ObservableCollection<PhoneNumber>(
+                        data.PhoneNumbers.Where(num => num.Contact == contact)
+                    );
             }
+
+            callTypes = new ObservableCollection<CallType>(data.callTypes.ToList());
+            callResultTypes = new ObservableCollection<CallResultType>(data.callResultType.ToList());
+            UpdateCallsListBox();
+            UpdatePlannedCallsListBox();
 
             for (int i = 0; i < StatusesListBox.Items.Count; i++)
             {
@@ -90,7 +89,6 @@ namespace PestControll_CRM.Windows
         }
 
         #region Search/Filter Contacts
-
         private bool FilteredContact(Contact contact)
         {
             bool flag = true;
@@ -106,12 +104,13 @@ namespace PestControll_CRM.Windows
 
             return flag;
         }
-
         private void SearchContacts()
         {
             contacts = new ObservableCollection<Contact>(data.contacts.ToList().Where(c => FilteredContact(c)));
             ContactsListBox.ItemsSource = contacts;
         }
+
+
         private void ContactStatusComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ContactStatusComboBox.SelectedItem != null)
