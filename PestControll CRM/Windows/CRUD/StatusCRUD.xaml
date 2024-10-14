@@ -51,7 +51,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock          Grid.Column="0" Text="Колір"/>
-                    <xctk:ColorPicker   Grid.Column="1" x:Name="StatusColorPicker" SelectedColor="{Binding status.color}"
+                    <xctk:ColorPicker   Grid.Column="1" x:Name="StatusColorPicker"
                                         SelectedColorChanged="StatusColorPicker_SelectedColorChanged"/>
                 </Grid>
             </StackPanel>

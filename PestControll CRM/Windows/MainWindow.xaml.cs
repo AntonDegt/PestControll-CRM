@@ -1,27 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using PestControll_CRM.Data;
+﻿using PestControll_CRM.Data;
 using PestControll_CRM.Data.Entity;
+using PestControll_CRM.Data.Entity.Clients;
 using PestControll_CRM.Windows.CRUD;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace PestControll_CRM.Windows
 {
@@ -38,13 +26,20 @@ namespace PestControll_CRM.Windows
         public ObservableCollection<CallResultType> callResultTypes { get; set; }
         public ObservableCollection<Call> calls { get; set; }
         public ObservableCollection<PlannedCall> plannedCalls { get; set; }
+        public ObservableCollection<LegalPerson> legalPeople { get; set; }
+        public ObservableCollection<NaturalPerson> naturalPeople { get; set; }
+        public ObservableCollection<Position> positions { get; set; }
+        public ObservableCollection<TaxSystem> taxSystems { get; set; }
         #endregion
 
         public MainWindow(DataContext data)
         {
+            // Inizialization
             this.DataContext = this;
             this.data = data;
             
+
+            // Contacts
             foreach (ContactStatus status in data.contactStatuses.ToList())
             {
                 Contact t = data.contacts.Where(c => c.contactstatus_id == status.Id).FirstOrDefault();
@@ -53,19 +48,22 @@ namespace PestControll_CRM.Windows
             }
 
 
+            // Initialize Component
             InitializeComponent();
 
 
-            contacts = new ObservableCollection<Contact>(data.contacts.ToList());
+            // Contacts
             UpdateStatusesListBox();
             UpdateContactsListBox();
-            foreach (Contact contact in contacts) 
-            {
-                contact.PhoneNumbers = new ObservableCollection<PhoneNumber>(
-                        data.PhoneNumbers.Where(num => num.Contact == contact)
-                    );
-            }
+            if (contacts != null)
+                foreach (Contact contact in contacts) 
+                {
+                    contact.PhoneNumbers = new ObservableCollection<PhoneNumber>(
+                            data.PhoneNumbers.Where(num => num.Contact == contact)
+                        );
+                }
 
+            // Calls
             callTypes = new ObservableCollection<CallType>(data.callTypes.ToList());
             callResultTypes = new ObservableCollection<CallResultType>(data.callResultType.ToList());
             UpdateCallsListBox();
@@ -85,7 +83,12 @@ namespace PestControll_CRM.Windows
                 }
             }
 
+            // Update Planned Calls List Box
             UpdatePlannedCallsListBox();
+
+
+            //Clients
+            UpdateLegalPerson();
         }
 
         #region Search/Filter Contacts
@@ -128,12 +131,6 @@ namespace PestControll_CRM.Windows
             else
                 ClearSearch.Visibility = Visibility.Visible;
         }
-
-        private void ContactSearchTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-                SearchContacts();
-        }
         private void ClearSearch_Click(object sender, RoutedEventArgs e)
         {
             ContactSearchTextBox.Text = "";
@@ -156,11 +153,11 @@ namespace PestControll_CRM.Windows
             Contact? contact = ContactsListBox.SelectedItem as Contact;
             if (contact == null) return;
             
-            new ContactCRUD(contact, ContactCRUD.ContactAction.Read, data, UpdateContactsListBox).Show();
+            new ContactCRUD(contact, ContactCRUD.ContactAction.Read, data, UpdateContactsListBox, UpdateCallsListBox).Show();
         }
         private void CreateContactButton_Click(object sender, RoutedEventArgs e)
         {
-            new ContactCRUD(new Contact(), ContactCRUD.ContactAction.Create, data, UpdateContactsListBox).Show();
+            new ContactCRUD(new Contact(), ContactCRUD.ContactAction.Create, data, UpdateContactsListBox, UpdateCallsListBox).Show();
         }
 
         private void EditContactButton_Click(object sender, RoutedEventArgs e)
@@ -168,7 +165,7 @@ namespace PestControll_CRM.Windows
             Contact? contact = ContactsListBox.SelectedItem as Contact;
             if (contact == null) return;
 
-            new ContactCRUD(contact, ContactCRUD.ContactAction.Update, data, UpdateContactsListBox).Show();
+            new ContactCRUD(contact, ContactCRUD.ContactAction.Update, data, UpdateContactsListBox, UpdateCallsListBox).Show();
         }
 
         private void DeleteContactButton_Click(object sender, RoutedEventArgs e)
@@ -193,6 +190,7 @@ namespace PestControll_CRM.Windows
         {
             contactStatuses = new ObservableCollection<ContactStatus>(data.contactStatuses.ToList());
             StatusesListBox.ItemsSource = contactStatuses;
+            ContactStatusComboBox.ItemsSource = contactStatuses;
         }
         private void StatusesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -458,7 +456,46 @@ namespace PestControll_CRM.Windows
 
         #endregion
 
+        #region Search LegalPersons
+        public bool FilteredLegalPerson(LegalPerson legalPerson)
+        {
+            bool flag = true;
+            if (LegalPersonSearchTextBox.Text.Length > 0)
+                if (!legalPerson.name.ToLower().Contains(LegalPersonSearchTextBox.Text.ToLower()))
+                    flag = false;
+
+            return flag;
+        }
+
+
+        private void LegalPersonSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateLegalPerson();
+            if (LegalPersonSearchTextBox.Text == "")
+                ClearLegalPersonSearch.Visibility = Visibility.Hidden;
+            else
+                ClearLegalPersonSearch.Visibility = Visibility.Visible;
+        }
+
+        private void ClearLegalPersonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            LegalPersonSearchTextBox.Text = "";
+        }
+        #endregion
+        
         #region LegalPerson CRUD
+        private void UpdateLegalPerson()
+        {
+            legalPeople = new ObservableCollection<LegalPerson>(data.legalPeople.ToList().Where(l => FilteredLegalPerson(l)));
+            LegalPersonListBox.ItemsSource = legalPeople;
+        }
+        private void LegalPersonListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            LegalPerson? legalPerson = LegalPersonListBox.SelectedItem as LegalPerson;
+            if (legalPerson == null) return;
+
+            new LegalPersonCRUD(legalPerson, LegalPersonCRUD.LegalPersonAction.Read, data, UpdateLegalPerson).Show();
+        }
         private void ViewLegalPersonButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -475,11 +512,6 @@ namespace PestControll_CRM.Windows
         }
 
         private void DeleteLegalPerson_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void LegalPersonListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
@@ -509,6 +541,58 @@ namespace PestControll_CRM.Windows
         private void NaturalPersonListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        #endregion
+
+
+
+
+
+
+
+
+
+
+        #region TRAY
+        private WindowState windowState = WindowState.Maximized;
+        // Открытие приложения из трея
+        private void Tray_Open(object sender, RoutedEventArgs e)
+        {
+            this.Show();
+            this.WindowState = windowState;
+        }
+
+        // Закрытие приложения из трея
+        private void Tray_Close(object sender, RoutedEventArgs e)
+        {
+            TrayIcon.Dispose();
+            Application.Current.Shutdown();
+        }
+
+        // Обработка закрытия окна (нажатие на крестик)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+        // Если окно свёрнуто, скрываем его в трей
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+                windowState = WindowState.Maximized;
+            else if (this.WindowState == WindowState.Normal)
+                windowState = WindowState.Normal;
+
+            base.OnStateChanged(e);
+        }
+
+        // Освобождение ресурсов при завершении работы приложения
+        protected override void OnClosed(EventArgs e)
+        {
+            TrayIcon.Dispose();
+            base.OnClosed(e);
         }
         #endregion
     }

@@ -2,25 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PestControll_CRM.Data.Entity;
 using PestControll_CRM.Data;
-using static System.Collections.Specialized.BitVector32;
 using System.Data;
 using System.ComponentModel;
-using static PestControll_CRM.Windows.CRUD.ContactCRUD;
-using System.Reflection;
-using System.Windows.Markup;
+using System.Runtime.CompilerServices;
 
 namespace PestControll_CRM.Windows.CRUD
 {
@@ -35,8 +25,10 @@ namespace PestControll_CRM.Windows.CRUD
         private bool closeAfterSavings;
         private bool changed = false;
 
-        public delegate void contactsListBoxUpdate();
-        public contactsListBoxUpdate update;
+        public delegate void ListBoxUpdate();
+        public ListBoxUpdate contactUpdate;
+        public ListBoxUpdate callsUpdate;
+
         public List<Grid> phoneNumbersGrids = new List<Grid>();
         public List<TextBox> phoneNumbersTextBoxes = new List<TextBox>();
 
@@ -45,24 +37,27 @@ namespace PestControll_CRM.Windows.CRUD
         public Contact contact { get; set; }
         public ObservableCollection<ContactStatus> statuses { get; set; }
         public ObservableCollection<PhoneNumber> phoneNumbers { get; set; }
+        public ObservableCollection<Call> calls { get; set; }
 
 
 
-        public ContactCRUD(Contact contact, ContactAction action, DataContext data, contactsListBoxUpdate update, bool closeAfterSaving = false)
+        public ContactCRUD(Contact contact, ContactAction action, DataContext data, ListBoxUpdate update, ListBoxUpdate callsUpdate, bool closeAfterSaving = false)
         {
             this.contact = contact;
             this.action = action;
             this.DataContext = this;
             this.data = data;
-            this.update = update;
+            this.contactUpdate = update;
+            this.callsUpdate = callsUpdate;
             this.closeAfterSavings = closeAfterSaving;
 
+            calls = new ObservableCollection<Call>(data.calls.Where(c => c.contact == contact).ToList());
             statuses = new ObservableCollection<ContactStatus>(data.contactStatuses.ToList());
 
             if (contact.PhoneNumbers == null)
                 contact.PhoneNumbers = new ObservableCollection<PhoneNumber>();
             phoneNumbers = new ObservableCollection<PhoneNumber>(contact.PhoneNumbers.ToList());
-            
+
             InitializeComponent();
 
         }
@@ -175,7 +170,7 @@ namespace PestControll_CRM.Windows.CRUD
 
 
             data.SaveChanges();
-            update.Invoke();
+            contactUpdate.Invoke();
 
             action = ContactAction.Update;
             changed = false;
@@ -328,5 +323,21 @@ namespace PestControll_CRM.Windows.CRUD
                 StatusesComboBox.ItemsSource = statuses;
             }
         }
+
+        private void UpdateCallsListBox()
+        {
+            calls = new ObservableCollection<Call>(data.calls.Where(c => c.contact == contact).ToList());
+            CallsListBox.ItemsSource = calls;
+
+            if (callsUpdate != null)
+                callsUpdate.Invoke();
+        }
+        private void CallsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Call call = CallsListBox.SelectedItem as Call;
+            if (call == null) return;
+
+            new CallCRUD(call, data, CallCRUD.CallAction.Update, UpdateCallsListBox).Show();
+        } 
     }
 }

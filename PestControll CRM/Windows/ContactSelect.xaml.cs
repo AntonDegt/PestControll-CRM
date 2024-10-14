@@ -119,7 +119,7 @@ namespace PestControll_CRM.Windows
 
         private void CreateContactButton_Click(object sender, RoutedEventArgs e)
         {
-            ContactCRUD cCRUD = new ContactCRUD(new Contact(), ContactCRUD.ContactAction.Create, data, SearchContacts, true);
+            ContactCRUD cCRUD = new ContactCRUD(new Contact(), ContactCRUD.ContactAction.Create, data, SearchContacts, null, true);
             cCRUD.Show();
             cCRUD.Closed += ContactCreated;
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using PestControll_CRM.Data;
 using PestControll_CRM.Data.Entity;
 using System;
@@ -156,7 +157,12 @@ namespace PestControll_CRM.Windows.CRUD
             call.date_time = datetime.Value;
             call.comment = CommentTextBox.Text;
 
+            if (action == CallAction.Create)
+            {
+                data.calls.Add(call);
+            }
             data.SaveChanges();
+            if (update != null)
             update.Invoke();
             action = CallAction.Update;
             changed = false;

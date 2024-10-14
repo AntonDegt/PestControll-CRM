@@ -45,6 +45,9 @@ namespace PestControll_CRM.Windows.CRUD
 
             InitializeComponent();
 
+            Color selectedColor = (Color)ColorConverter.ConvertFromString(status.StatusColor);
+            StatusColorPicker.SelectedColor = selectedColor;
+            
             CheckAction();
         }
         private void CheckAction()

@@ -38,7 +38,7 @@ namespace PestControll_CRM.Data.Entity
 
 
 
-        [Column("current_account", TypeName = "varchar(40)")]
+        [Column("current_account", TypeName = "text")]
         public string current_account { get; set; }
 
         [Column("address", TypeName = "varchar(100)")]

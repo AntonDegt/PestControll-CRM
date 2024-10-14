@@ -31,151 +31,229 @@
                FontSize="28"
                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical" Margin="25 5" MaxWidth="650">
-                <!--PIB-->
-                <Grid Style="{StaticResource Params}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="Ім'я Прізвище По батькові"/>
-                    <TextBox   Grid.Column="1" x:Name="PIBTextBox" Text="{Binding contact.PIB}"
-                               TextChanged="PIBTextBox_TextChanged"/>
-                </Grid>
+        <TabControl Grid.Row="1" Grid.Column="0">
+            <TabItem Style="{StaticResource SubTabItem}">
+
+                <TabItem.Header>
+                    <WrapPanel>
+                        <TextBlock Text="&#xf05a; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                        <TextBlock Text="Інфо"/>
+                    </WrapPanel>
+                </TabItem.Header>
 
 
-                <!--Status-->
-                <Grid Style="{StaticResource Params}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0" Text="Статус"/>
-                    <ComboBox  Grid.Column="1" 
-                               x:Name="StatusesComboBox" 
-                               DropDownOpened="StatusesComboBox_DropDownOpened"
-                               SelectionChanged="StatusesComboBox_SelectionChanged"
-                               ItemsSource="{Binding statuses, Mode=OneWay}"
-                               SelectedItem="{Binding contact.Status}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding StatusName}"/>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </Grid>
-                
-                <!--Phones-->
-                <Grid Style="{StaticResource Params}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Номера телефону"
-                               VerticalAlignment="Top"/>
-                    <TextBlock Grid.Column="0" Grid.Row="1" x:Name="ErrorNumbersTextBox" 
-                               Foreground="{StaticResource pc_red}" TextWrapping="Wrap"
-                               VerticalAlignment="Top"/>
-                    <ListBox   Grid.Column="1" Grid.Row="0"
-                               x:Name="PhoneNumbersListBox"
-                               ItemsSource="{Binding phoneNumbers}"
-                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                               BorderThickness="0" Padding="0 0 0 0">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid x:Name="PhoneListBoxItemGrid"
-                                      Initialized="PhoneListBoxItemGrid_Initialized">
+                <TabItem.Content>
+                    <Border BorderBrush="{StaticResource pc_red}" BorderThickness="2">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <StackPanel Orientation="Vertical" Margin="25 5" MaxWidth="650">
+                                <!--PIB-->
+                                <Grid Style="{StaticResource Params}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="50"/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Column="0" Text="+380">
-                                        <TextBlock.Resources>
-                                            <ResourceDictionary Source="/Themes/WhiteRed.xaml"/>
-                                        </TextBlock.Resources>
-                                    </TextBlock>
-                                    <TextBox Grid.Column="1"
-                                             x:Name="PhoneNumber" TextChanged="PhoneNumber_TextChanged"
-                                             BorderThickness="1" Initialized="PhoneNumber_Initialized"
-                                             Text="{Binding Path=phone_number_without_regions, Mode=OneWay}"/>
-                                    <Button Grid.Column="2"
-                                            x:Name="DeletePhoneNumber" Click="DeletePhoneNumber_Click"
-                                            Content="&#xf00d;" FontFamily="/Fonts/#Font Awesome 6 Free Solid"
-                                            BorderThickness="0" Background="Transparent" Foreground="{StaticResource pc_red}"/>
+                                    <TextBlock Grid.Column="0" Text="Ім'я Прізвище По батькові"/>
+                                    <TextBox   Grid.Column="1" x:Name="PIBTextBox" Text="{Binding contact.PIB}"
+                                                TextChanged="PIBTextBox_TextChanged"/>
                                 </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Grid.Column="1" Grid.Row="1"
-                            x:Name="AddPhoneNumberButton" Click="AddPhoneNumberButton_Click"
-                            Style="{StaticResource MenuButton}"
-                            Background="Transparent" Margin="5"
-                            BorderBrush="{StaticResource pc_b_green}"
-                            BorderThickness="3"
-                            Foreground="{StaticResource pc_b_green}">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="5"/>
-                            </Style>
-                        </Button.Resources>
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#x2b; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
-                                <TextBlock>Додати</TextBlock>
+
+
+                                <!--Status-->
+                                <Grid Style="{StaticResource Params}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="Статус"/>
+                                    <ComboBox  Grid.Column="1" 
+                                               x:Name="StatusesComboBox" 
+                                               DropDownOpened="StatusesComboBox_DropDownOpened"
+                                               SelectionChanged="StatusesComboBox_SelectionChanged"
+                                               ItemsSource="{Binding statuses, Mode=OneWay}"
+                                               SelectedItem="{Binding contact.Status}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding StatusName}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </Grid>
+
+                                <!--Phones-->
+                                <Grid Style="{StaticResource Params}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Номера телефону"
+                                               VerticalAlignment="Top"/>
+                                    <TextBlock Grid.Column="0" Grid.Row="1" x:Name="ErrorNumbersTextBox" 
+                                               Foreground="{StaticResource pc_red}" TextWrapping="Wrap"
+                                               VerticalAlignment="Top"/>
+                                    <ListBox   Grid.Column="1" Grid.Row="0"
+                                               x:Name="PhoneNumbersListBox"
+                                               ItemsSource="{Binding phoneNumbers}"
+                                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                               BorderThickness="0" Padding="0 0 0 0">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid x:Name="PhoneListBoxItemGrid"
+                                                      Initialized="PhoneListBoxItemGrid_Initialized">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="50"/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition Width="50"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Grid.Column="0" Text="+380">
+                                                        <TextBlock.Resources>
+                                                            <ResourceDictionary Source="/Themes/WhiteRed.xaml"/>
+                                                        </TextBlock.Resources>
+                                                    </TextBlock>
+                                                    <TextBox Grid.Column="1"
+                                                             x:Name="PhoneNumber" TextChanged="PhoneNumber_TextChanged"
+                                                             BorderThickness="1" Initialized="PhoneNumber_Initialized"
+                                                             Text="{Binding Path=phone_number_without_regions, Mode=OneWay}"/>
+                                                    <Button Grid.Column="2"
+                                                            x:Name="DeletePhoneNumber" Click="DeletePhoneNumber_Click"
+                                                            Content="&#xf00d;" FontFamily="/Fonts/#Font Awesome 6 Free Solid"
+                                                            BorderThickness="0" Background="Transparent" Foreground="{StaticResource pc_red}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                    <Button Grid.Column="1" Grid.Row="1"
+                                            x:Name="AddPhoneNumberButton" Click="AddPhoneNumberButton_Click"
+                                            Style="{StaticResource MenuButton}"
+                                            Background="Transparent" Margin="5"
+                                            BorderBrush="{StaticResource pc_b_green}"
+                                            BorderThickness="3"
+                                            Foreground="{StaticResource pc_b_green}">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="5"/>
+                                            </Style>
+                                        </Button.Resources>
+                                        <Button.Content>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#x2b; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                                                <TextBlock>Додати</TextBlock>
+                                            </StackPanel>
+                                        </Button.Content>
+                                    </Button>
+                                </Grid>
+
+                                <!--Email-->
+                                <Grid Style="{StaticResource Params}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="Електрона адреса"/>
+                                    <TextBox   Grid.Column="1" Text="{Binding contact.Email}"
+                                               x:Name="EmailTextBox" TextChanged="EmailTextBox_TextChanged"/>
+                                </Grid>
+
+                                <!--Notes-->
+                                <Grid Style="{StaticResource Params}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Column="0" Text="Нотатки" VerticalAlignment="Top"/>
+                                    <TextBox   Grid.Column="1" Text="{Binding contact.Notes}"
+                                               x:Name="NotesTextBox" TextChanged="NotesTextBox_TextChanged"
+                                               AcceptsReturn="True"/>
+                                </Grid>
+
                             </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </Grid>
+                        </ScrollViewer>
+                    </Border>
+                </TabItem.Content>
+            </TabItem>
 
-                <!--Email-->
-                <Grid Style="{StaticResource Params}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+            <TabItem Style="{StaticResource SubTabItem}">
 
-                    <TextBlock Grid.Column="0" Text="Електрона адреса"/>
-                    <TextBox   Grid.Column="1" Text="{Binding contact.Email}"
-                               x:Name="EmailTextBox" TextChanged="EmailTextBox_TextChanged"/>
-                </Grid>
+                <TabItem.Header>
+                    <WrapPanel>
+                        <TextBlock Text="&#xf095; " FontFamily="/Fonts/#Font Awesome 6 Free Solid"/>
+                        <TextBlock Text="Дзвінки"/>
+                    </WrapPanel>
+                </TabItem.Header>
 
-                <!--Notes-->
-                <Grid Style="{StaticResource Params}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="Нотатки" VerticalAlignment="Top"/>
-                    <TextBox   Grid.Column="1" Text="{Binding contact.Notes}"
-                               x:Name="NotesTextBox" TextChanged="NotesTextBox_TextChanged"
-                               AcceptsReturn="True"/>
-                </Grid>
+                <TabItem.Content>
+                    <Border BorderBrush="{StaticResource pc_red}" BorderThickness="2">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10 0"
+                                     x:Name="CallsListBox" ItemsSource="{Binding calls}"
+                                     ItemContainerStyle="{DynamicResource _ListBoxItemStyle}"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                     MouseDoubleClick="CallsListBox_MouseDoubleClick">
 
-            </StackPanel>
-        </ScrollViewer>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="0" Background="{StaticResource pc_white}"
+                                                Margin="0" Padding="5">
+                                            <Border BorderBrush="{StaticResource pc_black}" 
+                                                    BorderThickness="1" CornerRadius="5" Padding="5">
+                                                <Border.OpacityMask>
+                                                    <VisualBrush>
+                                                        <VisualBrush.Visual>
+                                                            <Border Background="Black"
+                                                                    SnapsToDevicePixels="True"
+                                                                    CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
+                                                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"/>
+                                                        </VisualBrush.Visual>
+                                                    </VisualBrush>
+                                                </Border.OpacityMask>
+                                                <Grid Background="{StaticResource pc_white}" Margin="5">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    
+                                                    <TextBlock Grid.Column="0"
+                                                               Text="{Binding Path=date_time, StringFormat='{}{0: dd.MM.yyyy HH:mm}'}"
+                                                               TextAlignment="Left"/>
+                                                    <TextBlock Grid.Column="1"
+                                                               Text="{Binding Path=callResultType.Name}"
+                                                               TextWrapping="Wrap"
+                                                               TextAlignment="Left"/>
+                                                </Grid>
+                                            </Border>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ScrollViewer>
+                    </Border>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>
 
         <Grid Grid.Row="2" MaxWidth="650">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
+
             <Button Grid.Column="0" x:Name="EditContactButton" Click="EditContactButton_Click"
                     Style="{StaticResource MenuButton}"
                     Background="{StaticResource pc_b_yellow}" Margin="5" MaxWidth="650">
@@ -208,6 +286,5 @@
                 </Button.Content>
             </Button>
         </Grid>
-
     </Grid>
 </Window>
